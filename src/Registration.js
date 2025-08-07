@@ -12,10 +12,35 @@ function Registration() {
   const navigate = useNavigate();
  
 
+// const handleRegister = async (e) => {
+//   e.preventDefault();
+//   try {
+//     const res = await fetch("http://localhost:5000/api/auth/register", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ username, email, password }),
+//     });
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       setMessage("Registration successful!");
+//       setTimeout(() => {
+//         navigate("/login");
+//       }, 2000);
+//     }else{
+//       setMessage(data.message || "Registration failed.");
+//     }
+
+//   } catch (error) {
+//     setMessage("Something went wrong. Please try again.");
+//     console.error(error);
+//   }
+// };
+
 const handleRegister = async (e) => {
   e.preventDefault();
   try {
-    const res = await fetch("http://localhost:5000/api/auth/register", {
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
@@ -36,7 +61,6 @@ const handleRegister = async (e) => {
     console.error(error);
   }
 };
-
 
 
   return (
