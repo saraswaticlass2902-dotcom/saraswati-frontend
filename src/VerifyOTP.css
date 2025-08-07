@@ -1,0 +1,42 @@
+
+
+.auth-box {
+  width: 350px;
+  margin: 80px auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  text-align: center;
+  background-color: #fff;
+  margin-top: 120px;
+}
+
+.auth-box input {
+  width: 100%;
+  margin: 0.6rem 0;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.auth-box button:hover {
+  background-color: #125aa0;
+}
+
+.error-text {
+  color: red;
+  margin-top: 1rem;
+}

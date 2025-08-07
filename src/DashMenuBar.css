@@ -1,0 +1,303 @@
+/* 
+.hamburger {
+  width: 35px;
+  margin: 20px;
+  cursor: pointer;
+  z-index: 9999; 
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}
+
+.bar {
+  height: 4px;
+  width: 100%;
+  background-color: white;
+   margin: 3px;
+  border-radius: 2px;
+  
+
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  
+ background-color: #2C3E50;
+color: #ECF0F1;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+  transform: translateX(0%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar.hide {
+  transform: translateX(-100%);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.sidebar li {
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  z-index: 9999; 
+}
+
+.change-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.change-password-form input {
+  width: 200px;
+ margin: 0 auto;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8edff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.change-password-form button {
+  padding: 8px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.Update-password{
+background: linear-gradient(to right, #8000ff, #c600ff);
+}
+.change-password-form button:hover {
+  background-color: #084298;
+}
+
+
+
+.profile-box {
+  background-color: #f9f9f9;
+  background: linear-gradient(to right, #8000ff, #c600ff);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.profile-box h3,p{
+  color: black;
+}
+
+.sidebar ul li:hover {
+  background-color:black; 
+  color: white;
+} */
+
+
+
+/* ---------- Common Styles ---------- */
+.hamburger {
+  width: 35px;
+  margin: 20px;
+  cursor: pointer;
+  z-index: 9999;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}
+
+.bar {
+  height: 4px;
+  width: 100%;
+  background-color: white;
+  margin: 3px;
+  border-radius: 2px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: #2C3E50;
+  color: #ECF0F1;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+  transform: translateX(0%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar.hide {
+  transform: translateX(-100%);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 60px;
+}
+
+.sidebar li {
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar li:hover {
+  background-color: black;
+  color: white;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.change-password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.change-password-form input {
+  width: 80%;
+  max-width: 300px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8edff;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.change-password-form button {
+  padding: 10px 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.Update-password {
+  background: linear-gradient(to right, #8000ff, #c600ff);
+}
+
+.change-password-form button:hover {
+  background-color: #084298;
+}
+
+.profile-box {
+  background-color: #f9f9f9;
+  background: linear-gradient(to right, #8000ff, #c600ff);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.profile-box h3, .profile-box p {
+  color: black;
+}
+
+/* ---------- Responsive Styles ---------- */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .sidebar ul {
+    margin-top: 30px;
+  }
+
+  .sidebar li {
+    font-size: 16px;
+    padding: 12px 8px;
+  }
+
+  .change-password-form input {
+    width: 90%;
+  }
+
+  .change-password-form button {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hamburger {
+    width: 30px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .bar {
+    height: 3px;
+  }
+
+  .sidebar {
+    padding: 10px;
+  }
+
+  .profile-box {
+    font-size: 14px;
+  }
+
+  .change-password-form input,
+  .change-password-form button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}

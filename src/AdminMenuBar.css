@@ -1,0 +1,18 @@
+.bar{
+
+height: 4px;
+width: 100%;
+background-color: white;
+margin: 3px;
+border-radius: 2px;
+
+}
+.hamburgers{
+  width: 35px;
+  margin: 20px;
+  cursor: pointer;
+  z-index: 9999; /* high z-index */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+}

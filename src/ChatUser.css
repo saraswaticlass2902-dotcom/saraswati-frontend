@@ -1,0 +1,103 @@
+.wa-chat-container {
+  width: 350px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  
+  background-color: #f0f2f5;
+}
+
+.wa-chat-header {
+  background-color: #075e54;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.wa-chat-email {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.wa-chat-email input {
+  width: 90%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.wa-chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #e5ddd5;
+}
+
+.wa-chat-bubble {
+  margin-bottom: 10px;
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  position: relative;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+.wa-user {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  border-bottom-right-radius: 0;
+}
+
+.wa-admin {
+  align-self: flex-start;
+  background-color: #fff;
+  border-bottom-left-radius: 0;
+}
+
+.wa-chat-time {
+  font-size: 10px;
+  text-align: right;
+  color: #555;
+  margin-top: 2px;
+}
+
+.wa-chat-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f0f2f5;
+}
+
+.wa-chat-input input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  
+}
+
+.wa-chat-input button {
+  margin-left: 10px;
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.wa-chat-input button:hover {
+  background-color: #20b858;
+}
