@@ -1,0 +1,78 @@
+/* AdminPurchases.css */
+
+.admin-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.admin-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.admin-table th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
+
+.admin-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.admin-table tr:hover {
+  background-color: #e1f5e1;
+}
+
+.admin-table a {
+  color: #2196F3;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.admin-table a:hover {
+  text-decoration: underline;
+}
+
+.admin-table button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  transition: 0.2s;
+}
+
+.admin-table button:hover {
+  opacity: 0.8;
+}
+
+.admin-table button:first-child {
+  background-color: #4CAF50; /* Approve */
+}
+
+.admin-table button:last-child {
+  background-color: #f44336; /* Reject */
+}

@@ -1,0 +1,219 @@
+/* Container */
+.house-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 50px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Header */
+.house-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.house-header h1 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+}
+
+.search-input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Cards Container */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+ 
+}
+
+/* Individual House Card */
+.house-card {
+  background-color: #fff;
+  
+  width: 450px;       /* पूर्वी 350px होतं, आता 450px */
+  min-height: 500px; 
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.house-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.house-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.house-info {
+  padding: 15px 20px;
+}
+
+.house-info h4 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+.house-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.short-desc {
+  font-style: italic;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Card Buttons */
+.card-buttons {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.card-buttons button {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.card-buttons button:first-child {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.card-buttons button:first-child:hover {
+  background-color: #2980b9;
+}
+
+.card-buttons button:last-child {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.card-buttons button:last-child:hover {
+  background-color: #27ae60;
+}
+
+/* Selected House Detail */
+.house-detail {
+  margin-top: 20px;
+}
+
+.house-detail-card {
+  display: flex;
+  gap: 25px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.house-detail-card img {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.house-detail-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.house-detail-info h3 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.house-detail-info p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.full-desc {
+  font-style: italic;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Buttons */
+.back-btn, .buy-btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.back-btn {
+  background-color: #7f8c8d;
+}
+
+.back-btn:hover {
+  background-color: #606c76;
+}
+
+.buy-btn {
+  background-color: #27ae60;
+}
+
+.buy-btn:hover {
+  background-color: #219150;
+}
+
+/* Buy Message */
+.buy-message {
+  margin: 15px 0;
+  font-size: 1rem;
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .house-detail-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .house-detail-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .cards-container {
+    justify-content: center;
+  }
+
+  .house-card {
+    width: 90%;
+  }
+}

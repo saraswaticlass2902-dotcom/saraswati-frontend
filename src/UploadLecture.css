@@ -1,0 +1,29 @@
+.upload-lecture-container {
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.upload-lecture-container input[type="file"] {
+  padding: 5px;
+}
+
+.upload-lecture-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.upload-lecture-container button:hover {
+  background-color: #0056b3;
+}
+
+.lecture-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}

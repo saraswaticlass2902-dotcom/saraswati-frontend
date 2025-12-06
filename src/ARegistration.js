@@ -16,9 +16,14 @@ const ARegistration = () => {
       const response = await axios.get("http://localhost:5000/api/admin/all-users", {
         withCredentials: true,
       });
-      const usersData = response?.data?.users || [];
-      setUsers(usersData);
-      setFilteredUsers(usersData);
+      //const usersData = response?.data?.users || [];
+     
+      setTimeout(() => {
+        const usersData = response?.data?.users || [];
+        setUsers(usersData);
+        setFilteredUsers(usersData);
+        }, 1000);
+      
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -29,7 +34,10 @@ const ARegistration = () => {
       const res = await axios.get("http://localhost:5000/api/admin/user-count", {
         withCredentials: true,
       });
-      setUserCount(res.data.count);
+
+      setTimeout(() => {
+            setUserCount(res.data.count);
+        }, 1000);
     } catch (err) {
       console.error("Error fetching user count:", err);
     }
@@ -71,6 +79,7 @@ const ARegistration = () => {
       <h2>Total Registered Users: {userCount}</h2>
       <input
         type="text"
+        name="email"
         value={searchEmail}
         onChange={handleSearch}
         placeholder="Search by email..."

@@ -56,7 +56,7 @@ body {
 .chat-popup {
   position: fixed;
   top: 50%;
-  left: 85%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 350px;
   height: 502px;

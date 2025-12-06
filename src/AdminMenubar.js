@@ -39,10 +39,10 @@ function AdminMenubar() {
           <button className="close-btn" onClick={() => setIsOpen(false)}>×</button>
 
           <ul>
-            <li>
+            {/* <li>
               <FaCog style={{ marginRight: "8px" }} />
               Settings
-            </li>
+            </li> */}
             <li onClick={handleLogout}> <FiLogOut style={{ marginRight: "8px" }} />Logout</li>
           </ul>
         </div>

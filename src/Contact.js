@@ -78,20 +78,21 @@ const handleChange = (e) => {
           <div className="mobile-input">
             <span className="flag">🇮🇳 +91</span>
             <input type="text" name="phone" placeholder="Mobile No." value={formData.phone} onChange={handleChange} required />
-            <span className="whatsapp-icon">🟢</span>
+            {/* <span className="whatsapp-icon">🟢</span> */}
           </div>
         </div>
+        
 
         <select name="type" value={formData.type} onChange={handleChange} required>
           <option value="">Nature of enquiry</option>
           <option>General</option>
           <option>Support</option>
-          <option>Investment</option>
+          
         </select>
 
 
      <>
-               <h3 style={{color:"red"}}>Important</h3>
+  <h3 style={{color:"red"}}>Important</h3>
   <h4 style={{color:"red"}}>Please Do Not Share Your Transaction Details</h4>
 </>
         <textarea
@@ -103,27 +104,27 @@ const handleChange = (e) => {
           required
         ></textarea>
 
-        <div className="captcha-row">
+        {/* <div className="captcha-row">
           <label>
             <input type="checkbox" required /> I am an existing bond investor
           </label>
-        </div>
+        </div> */}
 
-        <div className="captcha-box">
+        {/* <div className="captcha-box">
           <img src="https://dummyimage.com/120x40/ccc/000&text=XTUE" alt="captcha" />
           <button type="button" className="refresh-btn">
             <MdRefresh size={20} />
           </button>
-        </div>
+        </div> */}
 
-        <input
+        {/* <input
           type="text"
           name="captcha"
           placeholder="Enter Captcha"
           value={formData.captcha}
           onChange={handleChange}
           required
-        />
+        /> */}
 
         <button type="submit" className="submit-btn">
           Send Request <FaArrowRight />

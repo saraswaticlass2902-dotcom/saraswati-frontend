@@ -4,52 +4,65 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import "./Footer.css";
+import h1 from "./h1.jpg";
+import h2 from "./h2.jpg";
+import h3 from "./h3.jpg";
+import h4 from "./h4.jpg";
 function Home() {
   return (
     <div className="home-container">
       {/* Header */}
       <header className="home-header">
-        <h1>Welcome to <span className="highlight">Next Investment</span></h1>
-        <p>Your trusted platform for smart and secure investing</p>
+        <h1 className="highlight" >Welcome to   MyRentalHub</h1>
+        <p  style={{color:"black"} } >Your trusted platform </p>
         <Link to="/registration" className="get-started-button">Get Started</Link>
-         
-         
       </header>
+ 
+<div className="icons-section">
+  <img src={h1} alt="Investment Karo" className="icon-img" />
+  <img src={h2} alt="Investment Karo" className="icon-img" />
+  <img src={h3} alt="Investment Karo" className="icon-img" />
+  <img src={h4} alt="Investment Karo" className="icon-img" />
+</div>
 
-     
+       
+  
       <section className="features-section">
         <h2>Why Choose Us?</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <h3>Real-time Trading</h3>
-            <p>Get live updates and trade stocks in real time with precision.</p>
+            <h3>Trusted Listings</h3>
+            <p>All houses are verified, so you get safe and reliable options.</p>
           </div>
           <div className="feature-card">
-            <h3>Secure Transactions</h3>
-            <p>Your funds and data are fully encrypted with industry standards.</p>
+            <h3>24/7 Customer Support</h3>
+            <p>Our support team is always available to help you with any questions or issues.</p>
           </div>
           <div className="feature-card">
-            <h3>Analytics & Insights</h3>
-            <p>Get smart portfolio suggestions based on your performance.</p>
+            <h3>Quick & Easy Search</h3>
+            <p>Filter homes by location, rent, or apartment type to find your ideal home faster.</p>
           </div>
           <div className="feature-card">
-            <h3>Low Fees</h3>
-            <p>We offer one of the lowest fees in the industry without compromising quality.</p>
+            <h3>Affordable & Transparent</h3>
+            <p>Rent and property details are clear, with no hidden charges.</p>
           </div>
         </div>
       </section>
 
    
       <section className="about-section">
-        <h2>About Next Investment</h2>
+        <h2>MyRentalHub</h2>
         <p>
-          We are on a mission to empower every Indian to achieve financial freedom.
-          Next Investment is a modern trading platform designed for both new and
-          experienced investors. Track your stocks, manage your transactions, and grow your wealth with confidence.
+           MyRentalHub is a user-friendly platform designed to make finding rental homes 
+           and apartments fast, safe, and hassle-free. Our mission is to connect users directly
+            with verified landlords, offering transparent pricing, high-quality property images, 
+            and detailed property information.
         </p>
         <p>
-          Whether you are a student, working professional, or retired individual,
-          we have personalized tools to help you make the right decisions.
+          We focus on providing a seamless search experience, so you can filter homes by location,
+           rent, or apartment type and find your ideal home in minutes. With 24/7 support and a responsive
+            design for all devices, MyRentalHub ensures that finding your next home is easy, reliable,
+             and stress-free.
         </p>
       </section>
 
@@ -58,34 +71,31 @@ function Home() {
         <h2>What Our Users Say</h2>
         <div className="testimonials-grid">
           <div className="testimonial-card">
-            <p>"Next Investment helped me understand how to trade. It’s user-friendly and secure!"</p>
-            <strong>- Priya Sharma</strong>
+            <p>⭐⭐⭐⭐⭐
+            “Finding my new apartment was so easy! The listings are verified and the photos are very clear.”</p>
+            <strong>- Rajesh S.</strong>
           </div>
           <div className="testimonial-card">
-            <p>"I loved how simple and clean the UI is. Everything works smoothly."</p>
-            <strong>- Rahul Deshmukh</strong>
+            <p>⭐⭐⭐⭐⭐
+               “I love how simple the search is. I found my dream 2BHK within a day!”</p>
+            <strong>- Sneha M.</strong>
           </div>
           <div className="testimonial-card">
-            <p>"My portfolio has grown ever since I started using this app."</p>
-            <strong>- Anjali Mehta</strong>
+            <p>⭐⭐⭐⭐
+               “The 24/7 support is amazing. Any questions I had were answered instantly.”</p>
+            <strong>- Vikram K.</strong>
           </div>
         </div>
       </section>
 
-    
-      <section className="cta-section">
-        <h2>Ready to Start Investing?</h2>
-        <p>Sign up today and take your first step towards financial growth.</p>
-        <Link to="/registration" className="get-started-button">Create Account</Link>
-      </section>
-
+  
 
       <footer className="home-footer">
-        <p>&copy; {new Date().getFullYear()} Next Investment. All rights reserved.</p>
+        <p style={{color:"white"}} >&copy; {new Date().getFullYear()}  MyRentalHub. All rights reserved.</p>
         <div className="footer-links">
-          <h2>Smart Invest</h2>
-        <p className="footer-tagline">
-          Secure your future with safe and smart investments.
+          <h2 style={{color:"white"}}> MyRentalHub</h2>
+        <p style={{color:"white"}}  className="footer-tagline">
+          Secure your future with safe Life.
         </p>
 
           <Link to="/about" className="footer-link">About Us</Link>
@@ -93,8 +103,8 @@ function Home() {
           <Link to="/contact" className="footer-link">Contact</Link>
         </div>
         <div className="footer-contact">
-          <p>&copy; 2025 Smart Invest. All rights reserved.</p>
-          <p>Email: support@nextinvest.com | Phone: +91-9876543210</p>
+          <p style={{color:"white"}} >&copy; 2025 Smart Rent. All rights reserved.</p>
+          <p style={{color:"white"}}>Email: support@myrentalhub.com | Phone: +91-9876543210</p>
         </div>
       </footer>
     </div>

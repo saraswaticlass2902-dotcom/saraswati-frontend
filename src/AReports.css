@@ -12,3 +12,15 @@ th, td {
 th {
   background-color: #f2f2f2;
 }
+.status-btn{
+  width: 150px;
+  padding: 12px;
+  margin-top: 20px; 
+  background: linear-gradient(to right, #8000ff, #c600ff);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}

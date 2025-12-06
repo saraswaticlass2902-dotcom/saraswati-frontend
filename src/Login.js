@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate, Link } from "react-router-dom";
-import LoginImage from "./Login-Image.svg";
+import LoginImage from "./h2.jpg";
 
 function Login({ onSuccess }) {
   const [email, setEmail] = useState("");
@@ -30,7 +30,6 @@ function Login({ onSuccess }) {
       if (res.ok) {
         setMessage("✅ Login Successfully");
         if (onSuccess) onSuccess(email);
-
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
@@ -47,14 +46,14 @@ function Login({ onSuccess }) {
     <div className="login-split-container">
       
       <div className="login-left">
-        <img src={LoginImage} alt="Invest Illustration" className="login-image" />
-        <h2>Invest in Bonds & FDs Online</h2>
-        <ul>
-          <li>✅ Competitive Pricing for 100+ Bonds</li>
-          <li>✅ Tech-Driven Investment Tools</li>
-          <li>✅ Learning Modules & Live Webinars</li>
-        </ul>
-      </div>
+  <img src={LoginImage} alt="RentarHome Illustration" className="login-image" />
+  <h2>Find Your Perfect Rental Home</h2>
+  <ul>
+    <li>✅ Verified Listings for Safe & Reliable Rentals</li>
+    <li>✅ Filter Homes by Location, Rent & Apartment Type</li>
+    <li>✅ 24/7 Support & Quick Assistance</li>
+  </ul>
+</div>
 
      
       <div className="login-right">

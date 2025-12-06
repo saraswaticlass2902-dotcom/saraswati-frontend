@@ -22,93 +22,6 @@ const ChatUser = () => {
   }, [email]);
 
 
-  // const fetchChat = async () => {
-  //   if (!email) return;
-  //   try {
-  //     const res = await axios.get(`http://localhost:5000/api/chat/get/${email}`);
-  //     if (res.data.success) {
-  //       setChatHistory(res.data.messages);
-  //     } else {
-  //       setChatHistory([]);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching chat:", err);
-  //   }
-  // };
-
-//   useEffect(() => {
-//   if (!email) return;
-
-//   const fetchChat = async () => {
-//     try {
-//       const res = await axios.get(`http://localhost:5000/api/chat/get/${email}`);
-//       if (res.data.success) {
-//         setChatHistory(res.data.messages);
-//       } else {
-//         setChatHistory([]);
-//       }
-//     } catch (err) {
-//       console.error("Error fetching chat:", err);
-//     }
-//   };
-
-//   fetchChat();
-// }, [email]);
-
-//  useEffect(() => {
-//     if (!email) return;
-
-//     const fetchChat = async () => {
-//       try {
-//         const res = await axios.get(`http://localhost:5000/api/chat/get/${email}`);
-//         if (res.data.success) {
-//           setChatHistory(res.data.messages);
-//         } else {
-//           setChatHistory([]);
-//         }
-//       } catch (err) {
-//         console.error("Error fetching chat:", err);
-//       }
-//     };
-
-//     fetchChat();
-//   }, [email]);
-
-
-//   useEffect(() => {
-//     if (!email) return;
-//     fetchChat();
-//     const interval = setInterval(fetchChat, 500);
-//     return () => clearInterval(interval);
-//   }, [email]);
-
-//  const fetchChat = async () => {
-//     if (!email) return;
-//     try {
-//       const res = await axios.get(`http://localhost:5000/api/chat/get/${email}`);
-//       if (res.data.success) {
-//         setChatHistory(res.data.messages);
-//       } else {
-//         setChatHistory([]);
-//       }
-//     } catch (err) {
-//       console.error("Error fetching chat:", err);
-//     }
-//   };
-
-//   // On email change: start polling every 500ms
-//   useEffect(() => {
-//     if (!email) return;
-
-//     fetchChat(); // Initial load
-
-//     const interval = setInterval(() => {
-//       fetchChat();
-//     }, 500);
-
-//     return () => clearInterval(interval); // Cleanup
-//   }, [email]);
-
 useEffect(() => {
   if (!email) return;
 
@@ -165,7 +78,7 @@ useEffect(() => {
       <div className="wa-chat-email">
         <input
           type="text"
-          name="email"
+          
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

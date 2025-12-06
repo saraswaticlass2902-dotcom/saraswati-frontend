@@ -1,0 +1,28 @@
+/* StudentLive.css */
+.student-live-container{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px;
+  font-family: Arial, sans-serif;
+}
+.student-video{
+  width: 100%;
+  max-width: 720px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.status{
+  margin-top: 8px;
+  font-weight:600;
+}
+button{
+  padding: 8px 12px;
+  border-radius: 8px;
+  border:none;
+  cursor:pointer;
+  background:#0b78e3;
+  color:white;
+}
+@media (max-width:600px){
+  .student-video{ width:100%; }
+}
