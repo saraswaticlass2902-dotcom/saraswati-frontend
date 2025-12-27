@@ -138,7 +138,7 @@ footer {
   display: none;
   position: absolute;
   background-color: white;
-  min-width: 140px;
+  min-width: 170px;
   z-index: 1;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
@@ -220,5 +220,117 @@ footer {
   footer {
     font-size: 14px;
     padding: 10px 0;
+  }
+}
+
+
+
+/* ===== ADMIN SECRET POPUP ===== */
+
+.admin-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Popup box */
+.admin-popup {
+  background: #ffffff;
+  width: 340px;
+  padding: 22px 24px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: popupFadeIn 0.25s ease-out;
+}
+
+/* Title */
+.admin-popup h3 {
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Input field */
+.admin-popup input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.admin-popup input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* Error text */
+.error-text {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Buttons container */
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+/* Buttons */
+.popup-actions button {
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Verify button */
+.popup-actions button:first-child {
+  background: #007bff;
+  color: #fff;
+}
+
+.popup-actions button:first-child:hover {
+  background: #0056b3;
+}
+
+/* Cancel button */
+.popup-actions button:last-child {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.popup-actions button:last-child:hover {
+  background: #cfcfcf;
+}
+
+/* Animation */
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .admin-popup {
+    width: 90%;
   }
 }

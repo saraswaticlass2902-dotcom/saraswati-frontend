@@ -1,85 +1,110 @@
+/* ===== MAIN WRAPPER ===== */
 .admin-dashboard-wrapper {
   display: flex;
   min-height: 100vh;
+  background-color: #f1f5f9;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.sidebar {
-  width: 220px;
-  background-color: #2c3e50;
-  color: white;
-  padding: 20px 10px;
+/* ===== LEFT SIDEBAR (AdminMenuBar) ===== */
+.admin-menu-bar {
+  width: 230px;
+  min-width: 230px;
+  background-color: #1e293b;
+  color: #ffffff;
+  padding: 18px 14px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
 
-.sidebar-links {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar-links li {
-  margin: 10px 0;
-}
-
-.sidebar-links li a {
-  text-decoration: none;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.admin-main-content {
+/* ===== RIGHT CONTENT AREA ===== */
+.admin-content-area {
   flex: 1;
-  padding: 20px;
-  background: #ecf0f1;
-}
-
-
-.admin-dashboard-navbar{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background-color: #0a0ef1;
-  background: linear-gradient(to right, #8000ff, #c600ff);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 20px;
-  gap: 16px;
-  z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-
-.Admin-Button{
-
-    margin-left: 20px;
-  color: white;
-  padding-right: 40px;
-  background: none;
-  padding: 0;
-
-  border: none;
-  text-decoration: none;
-  border-radius: 0;
-  font-size: 18px;
-}
- 
-
-.chat-pops{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 600px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  z-index: 2000;
   display: flex;
   flex-direction: column;
+}
+
+/* ===== TOP NAVBAR ===== */
+.admin-dashboard-navbar {
+  height: 60px;
+  background-color: #334155;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== NAV BUTTONS ===== */
+.Admin-Button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.Admin-Button:hover {
+  background-color: #475569;
+}
+
+/* ===== CHAT ICON BUTTON ===== */
+.chat-icon-button {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* ===== MAIN CONTENT ===== */
+.admin-main-content {
+  flex: 1;
+  padding: 16px;
+  background-color: #f8fafc;
+  overflow-y: auto;
+}
+
+/* ===== CHAT POPUP ===== */
+.chat-pops {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  height: 420px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  z-index: 999;
   overflow: hidden;
-  border: 1px solid #ccc;
+}
+
+/* ===== RESPONSIVE (MOBILE) ===== */
+@media (max-width: 768px) {
+  .admin-menu-bar {
+    position: fixed;
+    left: -230px;
+    top: 0;
+    height: 100vh;
+    transition: left 0.3s ease;
+  }
+
+  .admin-menu-bar.open {
+    left: 0;
+  }
+
+  .admin-dashboard-navbar {
+    height: auto;
+    flex-wrap: wrap;
+  }
+
+  .Admin-Button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
 }

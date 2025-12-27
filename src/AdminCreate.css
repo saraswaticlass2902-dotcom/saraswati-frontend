@@ -1,0 +1,107 @@
+/* ===== Wrapper ===== */
+.admin-create-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f3f6ff, #e6ebff);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== Card ===== */
+.admin-create-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 30px 28px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Title ===== */
+.admin-create-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* ===== Inputs ===== */
+.admin-create-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.admin-create-card input:focus {
+  outline: none;
+  border-color: #4f6df5;
+  box-shadow: 0 0 0 2px rgba(79, 109, 245, 0.15);
+}
+
+.admin-create-card input:disabled {
+  background-color: #f2f2f2;
+  cursor: not-allowed;
+}
+
+/* ===== Button ===== */
+.admin-create-card button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4f6df5;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-create-card button:hover {
+  background-color: #3d5ae6;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(79, 109, 245, 0.3);
+}
+
+.admin-create-card button:disabled {
+  background-color: #9aa9f5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ===== Message ===== */
+.admin-create-card p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Success message */
+.admin-create-card p:has(✓),
+.admin-create-card p:has(✅) {
+  color: #2e7d32;
+}
+
+/* Error message */
+.admin-create-card p:has(❌) {
+  color: #c62828;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .admin-create-card {
+    padding: 24px 20px;
+  }
+
+  .admin-create-card h2 {
+    font-size: 20px;
+  }
+}

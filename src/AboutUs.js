@@ -4,116 +4,153 @@ import "./AboutUs.css";
 function AboutUs() {
   return (
     <div className="aboutus-wrapper">
+      {/* ===== HEADER ===== */}
       <header className="aboutus-header">
-        <h1>About Next Investment</h1>
-        <p>Your trusted partner in financial growth and wealth building.</p>
+        <h1>About Saraswati Classes</h1>
+        <p>
+          Empowering students with quality education, discipline, and confidence.
+        </p>
       </header>
 
+      {/* ===== MISSION ===== */}
       <section className="aboutus-section">
         <h2>Our Mission</h2>
         <p>
-          At Next Investment, we aim to empower individuals by providing intuitive investment tools, real-time tracking, and a secure platform to grow your financial assets confidently.
+          At Saraswati Classes, our mission is to provide clear concepts, strong
+          fundamentals, and personal guidance to every student so they can
+          achieve academic excellence and build a successful future.
         </p>
       </section>
 
+      {/* ===== VISION ===== */}
       <section className="aboutus-section">
         <h2>Our Vision</h2>
         <p>
-          To democratize financial investment by delivering a smart, secure, and user-friendly digital platform that ensures transparency, control, and efficiency for every user.
+          To become a trusted educational institute known for quality teaching,
+          disciplined learning environment, and consistent student success in
+          school, college, and competitive examinations.
         </p>
       </section>
 
+      {/* ===== FEATURES ===== */}
       <section className="aboutus-grid-section">
-        <h2>What Makes Us Unique</h2>
+        <h2>Why Choose Saraswati Classes</h2>
         <div className="aboutus-cards">
           <div className="aboutus-card">
-            <h3>🔐 Security First</h3>
+            <h3>📚 Concept-Based Teaching</h3>
             <p>
-              We use industry-standard encryption, two-factor authentication, and secure transactions to keep your money and data safe.
+              We focus on building strong fundamentals with simple explanations,
+              real-life examples, and regular doubt-solving sessions.
             </p>
           </div>
+
           <div className="aboutus-card">
-            <h3>📊 Real-time Tracking</h3>
+            <h3>👨‍🏫 Experienced Faculty</h3>
             <p>
-              Monitor your balance, stock portfolio, and transaction history with up-to-date market data and analytics.
+              Our teachers have years of teaching experience and are dedicated
+              to guiding students with personal attention.
             </p>
           </div>
+
           <div className="aboutus-card">
-            <h3>🚀 Fast & Simple</h3>
+            <h3>📝 Regular Tests & Feedback</h3>
             <p>
-              Designed with ease-of-use in mind, our platform is optimized for beginners and professionals alike.
+              Weekly tests, performance analysis, and parent feedback help
+              students track progress and improve continuously.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="aboutus-team">
-        <h2>Meet the Team</h2>
-        <div className="team-members">
-          <div className="team-member">
-            <img src="/team/vijay.jpg" alt="Vijay Raut" />
-            <h4>Vijay Raut</h4>
-            <p>Founder & CEO</p>
-          </div>
-          <div className="team-member">
-            <img src="/team/sheetal.jpg" alt="Sheetal K." />
-            <h4>Sheetal K.</h4>
-            <p>Head of Design</p>
-          </div>
-          <div className="team-member">
-            <img src="/team/rahul.jpg" alt="Rahul D." />
-            <h4>Rahul D.</h4>
-            <p>Lead Developer</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="aboutus-journey">
-        <h2>Our Journey</h2>
+      {/* ===== COURSES ===== */}
+      <section className="aboutus-section">
+        <h2>Courses We Offer</h2>
         <ul>
-          <li><strong>2023:</strong> Idea conceptualized, core team formed.</li>
-          <li><strong>2024:</strong> MVP launched with wallet and transaction support.</li>
-          <li><strong>2025:</strong> Stock buying/selling, balance history, and AI insights introduced.</li>
+          <li>✔️ School Tuition (5th to 10th – All Boards)</li>
+          <li>✔️ Science & Mathematics Special Batches</li>
+          <li>✔️ Junior College (11th & 12th)</li>
+          <li>✔️ Board Exam Preparation</li>
+          <li>✔️ Competitive Exam Foundation</li>
         </ul>
       </section>
 
+      {/* ===== TEACHER ===== */}
+      <section className="aboutus-team">
+        <h2>Our Faculty</h2>
+        <div className="team-members">
+          <div className="team-member">
+            <img src="/team/teacher.jpg" alt="Main Teacher" />
+            <h4>Prof. (Name)</h4>
+            <p>Founder & Head Teacher</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== JOURNEY ===== */}
+      <section className="aboutus-journey">
+        <h2>Our Journey</h2>
+        <ul>
+          <li>
+            <strong>2018:</strong> Saraswati Classes established with a vision of
+            quality education.
+          </li>
+          <li>
+            <strong>2020:</strong> Achieved 100% pass results in board exams.
+          </li>
+          <li>
+            <strong>2023:</strong> Expanded batches with smart teaching methods.
+          </li>
+        </ul>
+      </section>
+
+      {/* ===== ACHIEVEMENTS ===== */}
       <section className="aboutus-stats">
         <h2>Our Achievements</h2>
         <div className="stats-grid">
           <div className="stat-item">
-            <h3>10K+</h3>
-            <p>Active Users</p>
+            <h3>500+</h3>
+            <p>Students Trained</p>
           </div>
           <div className="stat-item">
-            <h3>₹2Cr+</h3>
-            <p>Transactions Processed</p>
+            <h3>95%+</h3>
+            <p>Consistent Results</p>
           </div>
           <div className="stat-item">
-            <h3>99.9%</h3>
-            <p>Uptime Guarantee</p>
+            <h3>10+</h3>
+            <p>Years of Experience</p>
           </div>
         </div>
       </section>
 
+      {/* ===== FEEDBACK ===== */}
       <section className="aboutus-feedback">
-        <h2>User Testimonials</h2>
+        <h2>What Our Students Say</h2>
         <blockquote>
-          “Next Investment has made my investing journey smooth and stress-free. The interface is clean and the insights are accurate.”
-          <br /> — Sneha Patil
+          “Teachers explain concepts very clearly. My confidence in maths and
+          science has improved a lot.”
+          <br /> — Student (10th Std)
         </blockquote>
         <blockquote>
-          “As a beginner, I was nervous about investing, but this platform gave me confidence and clarity.”
-          <br /> — Akshay Joshi
+          “Regular tests and personal attention helped me score better in board
+          exams.”
+          <br /> — Parent Feedback
         </blockquote>
       </section>
 
+      {/* ===== CTA ===== */}
       <section className="aboutus-cta">
-        <h2>Ready to Start Your Investment Journey?</h2>
-        <button onClick={() => window.location.href = "/register"}>Join Now</button>
+        <h2>Join Saraswati Classes Today</h2>
+        <button onClick={() => (window.location.href = "/contact")}>
+          Enroll Now
+        </button>
       </section>
 
+      {/* ===== FOOTER ===== */}
       <footer className="aboutus-footer">
-        <p>&copy; {new Date().getFullYear()} Next Investment. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Saraswati Classes. All rights
+          reserved.
+        </p>
       </footer>
     </div>
   );

@@ -1,13 +1,16 @@
-// //Dashboard.js
+
 
 // import { useState } from "react";
-// import { FaComments } from "react-icons/fa";
+// import { FaComments, FaHome } from "react-icons/fa";
+// import { BiHistory } from "react-icons/bi";
+// import { MdCastForEducation } from "react-icons/md";
+// import { BsCameraVideo } from "react-icons/bs"; // Recording icon
+// import { Link, Outlet } from "react-router-dom";
+
 // import ChatUser from "./ChatUser";
 // import DashMenuBar from "./DashMenuBar";
+
 // import "./Dashboard.css";
-// import { Outlet, Link } from "react-router-dom";
-// import { FaHome} from "react-icons/fa";
-// import { BiHistory } from "react-icons/bi";
 
 // function Dashboard() {
 //   const [showChat, setShowChat] = useState(false);
@@ -17,11 +20,22 @@
 //       <DashMenuBar />
 
 //       <nav className="dashboard-navbar">
-//         <Link to="/dashboard/Houserent" className="Dashboard-button"  ><FaHome /> Rent</Link>
-//         <Link to="/dashboard/History" className="Dashboard-button"> <BiHistory size={24} color="white" /></Link>
-//         <Link to="/dashboard/lecture" className="Dashboard-button">
-//           <FaVideo /> Lecture
+      
+//         <Link to="/dashboard/History" className="Dashboard-button">
+//           <BiHistory size={24} color="white" />
 //         </Link>
+
+//         {/* Live Lecture */}
+//         <Link to="/dashboard/student-lecture" className="Dashboard-button">
+//           <MdCastForEducation /> Live Lecture
+//         </Link>
+
+//         {/* Recorded Lectures */}
+//         <Link to="/dashboard/recorded-lectures" className="Dashboard-button">
+//           <BsCameraVideo /> Recordings
+//         </Link>
+
+//         {/* Chat */}
 //         <button
 //           className="Dashboard-button"
 //           onClick={() => setShowChat(!showChat)}
@@ -32,6 +46,7 @@
 
 //       <div className="dashboard-content">
 //         <Outlet />
+
 //         {showChat && (
 //           <div className="chat-popup">
 //             <ChatUser />
@@ -41,13 +56,17 @@
 //     </div>
 //   );
 // }
+
 // export default Dashboard;
 
+
+
+
 import { useState } from "react";
-import { FaComments, FaHome } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
 import { BiHistory } from "react-icons/bi";
 import { MdCastForEducation } from "react-icons/md";
-import { BsCameraVideo } from "react-icons/bs"; // Recording icon
+import { BsCameraVideo } from "react-icons/bs";
 import { Link, Outlet } from "react-router-dom";
 
 import ChatUser from "./ChatUser";
@@ -55,39 +74,43 @@ import DashMenuBar from "./DashMenuBar";
 
 import "./Dashboard.css";
 
-function Dashboard() {
+function Dashboard({ email, onLogout }) {
   const [showChat, setShowChat] = useState(false);
 
   return (
     <div className="dashboard-wrapper">
-      <DashMenuBar />
+      {/* LEFT SLIDE MENU */}
+      <DashMenuBar email={email} onLogout={onLogout} />
 
-      <nav className="dashboard-navbar">
-      
-        <Link to="/dashboard/History" className="Dashboard-button">
-          <BiHistory size={24} color="white" />
-        </Link>
+      {/* TOP BAR */}
+      <header className="dashboard-topbar">
+        <div className="topbar-right">
+          <Link to="/dashboard/Courses" className="topbar-btn">
+            Course
+          </Link>
+          <Link to="/dashboard/history" className="topbar-btn">
+            <BiHistory /> History
+          </Link>
 
-        {/* Live Lecture */}
-        <Link to="/dashboard/student-lecture" className="Dashboard-button">
-          <MdCastForEducation /> Live Lecture
-        </Link>
+          <Link to="/dashboard/student-lecture" className="topbar-btn">
+            <MdCastForEducation /> Live Lecture
+          </Link>
 
-        {/* Recorded Lectures */}
-        <Link to="/dashboard/recorded-lectures" className="Dashboard-button">
-          <BsCameraVideo /> Recordings
-        </Link>
+          <Link to="/dashboard/recorded-lectures" className="topbar-btn">
+            <BsCameraVideo /> Recordings
+          </Link>
 
-        {/* Chat */}
-        <button
-          className="Dashboard-button"
-          onClick={() => setShowChat(!showChat)}
-        >
-          <FaComments /> Chat
-        </button>
-      </nav>
+          <button
+            className="topbar-btn"
+            onClick={() => setShowChat(!showChat)}
+          >
+            <FaComments /> Chat
+          </button>
+        </div>
+      </header>
 
-      <div className="dashboard-content">
+      {/* MAIN CONTENT */}
+      <main className="dashboard-content">
         <Outlet />
 
         {showChat && (
@@ -95,7 +118,7 @@ function Dashboard() {
             <ChatUser />
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

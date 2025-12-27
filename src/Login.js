@@ -1,61 +1,58 @@
-// //Login.js
+
 
 // import React, { useState } from "react";
 // import "./Login.css";
-// import { useNavigate, Link } from "react-router-dom";
-// import LoginImage from "./h2.jpg";
+// import { Link } from "react-router-dom";
+
+// const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
 
 // function Login({ onSuccess }) {
 //   const [email, setEmail] = useState("");
 //   const [password, setPassword] = useState("");
 //   const [message, setMessage] = useState("");
-//   const navigate = useNavigate();
+//   const [loading, setLoading] = useState(false);
 
 //   const handleLogin = async () => {
 //     if (!email || !password) {
-//       alert("Please enter both email and password");
+//       setMessage("Please enter email and password");
 //       return;
 //     }
 
+//     setLoading(true);
+//     setMessage("");
+
 //     try {
-//       const res = await fetch("http://localhost:5000/api/auth/login", {
+//       const res = await fetch(`${API_BASE}/api/auth/login`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         credentials: "include",
-//         body: JSON.stringify({ email, password }),
+//         body: JSON.stringify({
+//           email: email.trim().toLowerCase(),
+//           password,
+//         }),
 //       });
 
 //       const data = await res.json();
 
 //       if (res.ok) {
-//         setMessage("✅ Login Successfully");
-//         if (onSuccess) onSuccess(email);
-//         setTimeout(() => {
-//           navigate("/dashboard");
-//         }, 1000);
+//         // ✅ ONLY update auth state
+//         if (onSuccess) {
+//           await onSuccess(); 
+//         }
+//         // ❌ navigate इथे नाही
 //       } else {
-//         alert(data.message || "Login failed");
+//         setMessage(data?.message || "Login failed");
 //       }
-//     } catch (error) {
-//       console.error("Login error:", error);
-//       alert("Something went wrong. Please try again.");
+//     } catch (err) {
+//       console.error("Login error:", err);
+//       setMessage("Server error. Please try again later.");
+//     } finally {
+//       setLoading(false);
 //     }
 //   };
 
 //   return (
 //     <div className="login-split-container">
-      
-//       <div className="login-left">
-//   <img src={LoginImage} alt="RentarHome Illustration" className="login-image" />
-//   <h2>Find Your Perfect Rental Home</h2>
-//   <ul>
-//     <li>✅ Verified Listings for Safe & Reliable Rentals</li>
-//     <li>✅ Filter Homes by Location, Rent & Apartment Type</li>
-//     <li>✅ 24/7 Support & Quick Assistance</li>
-//   </ul>
-// </div>
-
-     
 //       <div className="login-right">
 //         <div className="login-box">
 //           <h2>Welcome Back!</h2>
@@ -64,24 +61,26 @@
 //           <input
 //             type="email"
 //             placeholder="Enter Email"
-//             name="email"
 //             value={email}
 //             onChange={(e) => setEmail(e.target.value)}
-//             required
+//             disabled={loading}
 //           />
+
 //           <input
 //             type="password"
 //             placeholder="Password"
 //             value={password}
 //             onChange={(e) => setPassword(e.target.value)}
-//             required
+//             disabled={loading}
 //           />
 
 //           <p className="forgot-text">
 //             <Link to="/forgot-password">Forgot Password?</Link>
 //           </p>
 
-//           <button onClick={handleLogin}>Login</button>
+//           <button onClick={handleLogin} disabled={loading}>
+//             {loading ? "Logging in..." : "Login"}
+//           </button>
 
 //           <p className="signup-text">
 //             New User? <Link to="/registration">Signup</Link>
@@ -96,69 +95,110 @@
 
 // export default Login;
 
-// Login.js
+
 
 import React, { useState } from "react";
 import "./Login.css";
-import { useNavigate, Link } from "react-router-dom";
-import LoginImage from "./h2.jpg";
+import { Link, useNavigate } from "react-router-dom";
+
+const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
 
 function Login({ onSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  // Backend URL (auto switches between localhost & production)
-  const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  const navigate = useNavigate(); // 🔥 ADD THIS
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      alert("Please enter both email and password");
-      return;
-    }
+//   const handleLogin = async () => {
+//     if (!email || !password) {
+//       setMessage("Please enter email and password");
+//       return;
+//     }
 
-    try {
-      const res = await fetch(`${API}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // important for cookies
-        body: JSON.stringify({ email, password }),
-      });
+//     setLoading(true);
+//     setMessage("");
 
-      const data = await res.json();
+//     try {
+//       const res = await fetch(`${API_BASE}/api/auth/login`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         credentials: "include", // 🔥 MUST for cookies
+//         body: JSON.stringify({
+//           email: email.trim().toLowerCase(),
+//           password,
+//         }),
+//       });
 
-      if (res.ok) {
-        setMessage("✅ Login Successfully");
-        if (onSuccess) onSuccess(email);
+//       const data = await res.json();
 
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1000);
-      } else {
-        alert(data.message || "Login failed");
+//       if (res.ok) {
+//         // ✅ update auth state in App.js
+       
+// if (onSuccess) {
+//   await onSuccess();
+// }
+
+// setTimeout(() => {
+//   navigate("/dashboard", { replace: true });
+// }, 150); // 🔥 cookie attach होण्यासाठी थोडा वेळ 
+//       } else {
+//         setMessage(data?.message || "Login failed");
+//       }
+//     } catch (err) {
+//       console.error("Login error:", err);
+//       setMessage("Server error. Please try again later.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+const handleLogin = async () => {
+  if (!email || !password) {
+    setMessage("Please enter email and password");
+    return;
+  }
+
+  setLoading(true);
+  setMessage("");
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // 🔥 important for cookies
+      body: JSON.stringify({
+        email: email.trim().toLowerCase(),
+        password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      // update session state
+      if (onSuccess) {
+        await onSuccess();
       }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Something went wrong. Please try again.");
+
+      // 🔥 small delay so cookie attaches properly
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true });
+      }, 150);
+    } else {
+      setMessage(data?.message || "Login failed");
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    setMessage("Server error. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="login-split-container">
-
-      {/* Left side */}
-      <div className="login-left">
-        <img src={LoginImage} alt="RentarHome Illustration" className="login-image" />
-        <h2>Find Your Perfect Rental Home</h2>
-        <ul>
-          <li>✅ Verified Listings for Safe & Reliable Rentals</li>
-          <li>✅ Filter Homes by Location, Rent & Apartment Type</li>
-          <li>✅ 24/7 Support & Quick Assistance</li>
-        </ul>
-      </div>
-
-      {/* Right side */}
       <div className="login-right">
         <div className="login-box">
           <h2>Welcome Back!</h2>
@@ -169,7 +209,7 @@ function Login({ onSuccess }) {
             placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+            disabled={loading}
           />
 
           <input
@@ -177,14 +217,16 @@ function Login({ onSuccess }) {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            disabled={loading}
           />
 
           <p className="forgot-text">
             <Link to="/forgot-password">Forgot Password?</Link>
           </p>
 
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
           <p className="signup-text">
             New User? <Link to="/registration">Signup</Link>

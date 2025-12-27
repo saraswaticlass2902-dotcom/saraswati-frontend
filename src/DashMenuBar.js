@@ -1,257 +1,296 @@
 
 
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import "./DashMenuBar.css";
 import { FiLogOut, FiTrash2 } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
-function DashMenuBar() {
+const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
+
+function DashMenuBar({ email, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [activeSection, setActiveSection] = useState("");
-  const [userDetails, setUserDetails] = useState({ email: "", username: "" });
+  const [message, setMessage] = useState("");
+
+  const [showDeleteOtp, setShowDeleteOtp] = useState(false);
+  const [deleteOtp, setDeleteOtp] = useState("");
+
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const [profileData, setProfileData] = useState({
+    username: "",
+    email: "",
+    studentName: "",
+    dob: "",
+    gender: "",
+    village: "",
+    parentName: "",
+    parentContact: "",
+    standard: "",
+  });
 
   const navigate = useNavigate();
-  const email = localStorage.getItem("email");
-
-  // 15 मिनिट inactivity timeout (milliseconds)
-  const INACTIVITY_LIMIT = 15 * 60 * 1000;
-
-  // State for remaining time (milliseconds)
-  const [remainingTime, setRemainingTime] = useState(INACTIVITY_LIMIT);
-
-  // Timer refs
   const logoutTimerRef = useRef(null);
-  const countdownIntervalRef = useRef(null);
 
-  // Reset timer function
-  const resetInactivityTimer = () => {
-    setRemainingTime(INACTIVITY_LIMIT);
-
-    if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
-    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-
-    // Logout timeout
-    logoutTimerRef.current = setTimeout(() => {
-      alert("⏰ Session expired due to inactivity.");
-      localStorage.clear();
-      navigate("/login");
-    }, INACTIVITY_LIMIT);
-
-    // Countdown updater every second
-    countdownIntervalRef.current = setInterval(() => {
-      setRemainingTime(prev => {
-        if (prev <= 1000) {
-          clearInterval(countdownIntervalRef.current);
-          return 0;
-        }
-        return prev - 1000;
-      });
-    }, 1000);
-  };
-
-  // Listen to user activity to reset timer
-  useEffect(() => {
-    if (!email) return;
-
-    const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
-    const activityHandler = () => resetInactivityTimer();
-
-    events.forEach(event => window.addEventListener(event, activityHandler));
-    resetInactivityTimer();
-
-    return () => {
-      events.forEach(event => window.removeEventListener(event, activityHandler));
-      if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-    };
-  }, [email, navigate]);
-
-  // Fetch profile
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/api/profile/details?email=${email}`);
-        if (!res.ok) {
-          console.error("Failed to fetch profile:", res.statusText);
-          return;
-        }
-
-        const data = await res.json();
-        setUserDetails({ email: data.email, username: data.username });
-      } catch (err) {
-        console.error("Error fetching profile:", err.message);
-      }
-    };
-
-    if (email) {
-      fetchProfile();
-    }
-  }, [email]);
-
-  // Logout handler
+  /* ================= AUTO LOGOUT ================= */
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch(`${API_BASE}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
-      localStorage.clear();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
+    } finally {
+      if (onLogout) await onLogout();
+      navigate("/login", { replace: true });
     }
   };
 
-  // Change password handler
-  const handleChangePassword = async () => {
-    if (!oldPass || !newPass || !confirmPass) {
-      alert("❗ Please fill all fields!");
-    } else if (newPass !== confirmPass) {
-      alert("❗ New and Confirm password do not match!");
-    } else {
-      try {
-        const res = await fetch("http://localhost:5000/api/auth/change-password", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass }),
-        });
+  /* ================= FETCH PROFILE ================= */
+  useEffect(() => {
+    if (!email) return;
 
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/profile/details`, {
+          credentials: "include",
+        });
         const data = await res.json();
-        if (res.ok) {
-          alert("✅ Password changed successfully!");
-          setOldPass("");
-          setNewPass("");
-          setConfirmPass("");
-          setIsOpen(false);
+
+        if (data.exists) {
+          setProfileData({
+            ...data.profile,
+            dob: data.profile.dob
+              ? data.profile.dob.split("T")[0]
+              : "",
+          });
         } else {
-          alert(`❌ ${data.error}`);
+          setProfileData((p) => ({ ...p, email, username: email }));
         }
       } catch (err) {
-        alert("❌ Error changing password");
+        console.error("Profile fetch error:", err);
       }
-    }
-  };
+    };
 
-  // Delete account handler
-  const handleDeleteAccount = async () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account permanently?");
-    if (!confirmDelete) return;
+    fetchProfile();
+  }, [email]);
 
+  /* ================= SAVE PROFILE ================= */
+  const saveProfile = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/delete-account`, {
-        method: "DELETE",
+      const res = await fetch(`${API_BASE}/api/profile/update`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(profileData),
       });
 
       const data = await res.json();
-
-      if (res.ok) {
-        alert("🗑️ Account deleted successfully!");
-        localStorage.clear();
-        navigate("/registration");
-      } else {
-        alert(`❌ ${data.error || "Failed to delete account"}`);
+      if (data.ok) {
+        alert("✅ Profile updated");
+        setEditMode(false);
       }
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert("❌ Something went wrong while deleting the account.");
+    } catch {
+      alert("❌ Update failed");
     }
   };
 
-  const toggleSection = (sectionName) => {
-    setActiveSection(prev => (prev === sectionName ? "" : sectionName));
+  /* ================= CHANGE PASSWORD ================= */
+  const handleChangePassword = async () => {
+    if (!oldPass || !newPass || !confirmPass) return alert("Fill all fields");
+    if (newPass !== confirmPass) return alert("Passwords do not match");
+
+    const res = await fetch(`${API_BASE}/api/auth/change-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass }),
+    });
+
+    if (res.ok) {
+      alert("Password changed");
+      setActiveSection("");
+    }
   };
 
-  // Format milliseconds to mm:ss format
-  const formatTime = (ms) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
+  /* ================= DELETE ACCOUNT OTP ================= */
+  const handleDeleteAccount = async () => {
+    if (!window.confirm("Delete account permanently?")) return;
+
+    const res = await fetch(`${API_BASE}/api/auth/delete-account-otp`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (res.ok) {
+      alert("OTP sent");
+      setShowDeleteOtp(true);
+    }
+  };
+
+  const verifyDeleteOtp = async () => {
+    const res = await fetch(`${API_BASE}/api/auth/verify-delete-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ otp: deleteOtp }),
+    });
+
+    if (res.ok) handleLogout();
+    else alert("Invalid OTP");
   };
 
   return (
-    <div>
+    <>
+      {/* ===== HAMBURGER ===== */}
       {!isOpen && (
         <div className="hamburger" onClick={() => setIsOpen(true)}>
           <div className="bar" />
           <div className="bar" />
-          <div className="bar" style={{ marginBottom: "40px" }} />
+          <div className="bar" />
         </div>
       )}
 
+      {/* ===== SIDEBAR ===== */}
       {isOpen && (
-        <div className={`sidebar ${isOpen ? "show" : "hide"}`}>
+        <div className="sidebar show">
           <button className="close-btn" onClick={() => setIsOpen(false)}>×</button>
 
           <ul>
-            <li onClick={() => toggleSection("profile")}>
+            <li
+              onClick={() => {
+                setShowProfilePopup(true);
+                setIsOpen(false);
+              }}
+            >
               <FaUserCircle /> My Profile
             </li>
 
-            <li onClick={() => toggleSection("changePassword")}>
-              <RiLockPasswordLine style={{ fontSize: "22px", marginRight: "8px" }} />
-              Change Password
+            <li onClick={() => setActiveSection("password")}>
+              <RiLockPasswordLine /> Change Password
             </li>
 
             <li onClick={handleLogout}>
-              <FiLogOut style={{ marginRight: "8px" }} /> Logout
+              <FiLogOut /> Logout
             </li>
 
             <li onClick={handleDeleteAccount}>
-              <FiTrash2 style={{ marginRight: "8px" }} /> Delete account
+              <FiTrash2 /> Delete Account
             </li>
           </ul>
-
-          {/* Countdown display */}
-          <div style={{ margin: "10px", fontWeight: "bold", fontSize: "14px", color: "#b22222" }}>
-            Logout in: {formatTime(remainingTime)} (mm:ss)
-          </div>
-
-          {activeSection === "profile" && (
-            <div className="profile-box">
-              <h3>👤 My Profile</h3>
-              <p><strong>Username:</strong> {userDetails.username || "N/A"}</p>
-              <p><strong>Email:</strong> {userDetails.email || "N/A"}</p>
-            </div>
-          )}
-
-          {activeSection === "changePassword" && (
-            <div className="change-password-form">
-              <input
-                type="password"
-                placeholder="Old Password"
-                value={oldPass}
-                onChange={(e) => setOldPass(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="New Password"
-                value={newPass}
-                onChange={(e) => setNewPass(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPass}
-                onChange={(e) => setConfirmPass(e.target.value)}
-              />
-              <button className="Update-password" onClick={handleChangePassword}>
-                Update Password
-              </button>
-            </div>
-          )}
         </div>
       )}
-    </div>
+
+      {/* ===== CHANGE PASSWORD POPUP ===== */}
+      {activeSection === "password" && (
+        <div className="popup-overlay" onClick={() => setActiveSection("")}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <h3>Change Password</h3>
+            <input placeholder="Old Password" type="password" onChange={(e) => setOldPass(e.target.value)} />
+            <input placeholder="New Password" type="password" onChange={(e) => setNewPass(e.target.value)} />
+            <input placeholder="Confirm Password" type="password" onChange={(e) => setConfirmPass(e.target.value)} />
+            <button className="primary-btn" onClick={handleChangePassword}>Update</button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== PROFILE POPUP ===== */}
+      {showProfilePopup && (
+        <div className="popup-overlay" onClick={() => setShowProfilePopup(false)}>
+          <div className="popup-box profile-popup" onClick={(e) => e.stopPropagation()}>
+            <h3>👤 My Profile</h3>
+
+            <input value={profileData.email} disabled />
+
+            <input
+              placeholder="Student Name"
+              disabled={!editMode}
+              value={profileData.studentName}
+              onChange={(e) => setProfileData({ ...profileData, studentName: e.target.value })}
+            />
+
+            <input
+              type="date"
+              disabled={!editMode}
+              value={profileData.dob}
+              onChange={(e) => setProfileData({ ...profileData, dob: e.target.value })}
+            />
+
+            <select
+              disabled={!editMode}
+              value={profileData.gender}
+              onChange={(e) => setProfileData({ ...profileData, gender: e.target.value })}
+            >
+              <option value="">Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+
+            <input
+              placeholder="Village"
+              disabled={!editMode}
+              value={profileData.village}
+              onChange={(e) => setProfileData({ ...profileData, village: e.target.value })}
+            />
+
+            <input
+              placeholder="Parent Name"
+              disabled={!editMode}
+              value={profileData.parentName}
+              onChange={(e) => setProfileData({ ...profileData, parentName: e.target.value })}
+            />
+
+            <input
+              placeholder="Parent Contact"
+              disabled={!editMode}
+              value={profileData.parentContact}
+              onChange={(e) => setProfileData({ ...profileData, parentContact: e.target.value })}
+            />
+
+            <input
+              placeholder="Standard"
+              disabled={!editMode}
+              value={profileData.standard}
+              onChange={(e) => setProfileData({ ...profileData, standard: e.target.value })}
+            />
+
+            {!editMode ? (
+              <button className="primary-btn" onClick={() => setEditMode(true)}>Edit Profile</button>
+            ) : (
+              <button className="primary-btn" onClick={saveProfile}>Save Profile</button>
+            )}
+
+            <button className="secondary-btn" onClick={() => setShowProfilePopup(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== DELETE OTP POPUP ===== */}
+      {showDeleteOtp && (
+        <div className="popup-overlay" onClick={() => setShowDeleteOtp(false)}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <h3>Verify OTP</h3>
+            <input
+              maxLength={6}
+              value={deleteOtp}
+              onChange={(e) => setDeleteOtp(e.target.value.replace(/\D/g, ""))}
+            />
+            <button className="primary-btn" onClick={verifyDeleteOtp}>
+              Verify & Delete
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
-  export default DashMenuBar;
+
+export default DashMenuBar;

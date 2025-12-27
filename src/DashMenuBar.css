@@ -1,310 +1,227 @@
-/* 
+/* ================= HAMBURGER ================= */
 .hamburger {
-  width: 35px;
-  margin: 20px;
-  cursor: pointer;
-  z-index: 9999; 
   position: fixed;
   top: 15px;
   left: 15px;
+  width: 32px;
+  cursor: pointer;
+  z-index: 300; /* above sidebar */
 }
 
-.bar {
+.hamburger .bar {
   height: 4px;
   width: 100%;
-  background-color: white;
-   margin: 3px;
-  border-radius: 2px;
-  
-
+  background: #1e293b;
+  margin: 5px 0;
+  border-radius: 4px;
 }
 
+/* ================= SIDEBAR ================= */
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 240px;
+  left: -260px;
+  width: 260px;
   height: 100vh;
-  
- background-color: #2C3E50;
-color: #ECF0F1;
-  padding: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 9998;
-  transform: translateX(0%);
-  transition: transform 0.3s ease;
+  background: #0f172a;
+  color: #fff;
+  z-index: 250;
+  padding: 20px 16px;
+  transition: left 0.3s ease;
   overflow-y: auto;
 }
 
 .sidebar.show {
-  transform: translateX(0);
-}
-
-.sidebar.hide {
-  transform: translateX(-100%);
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 60px;
-}
-
-.sidebar li {
-  padding: 15px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.sidebar li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  color: white;
-  font-size: 24px;
-  border: none;
-  cursor: pointer;
-  z-index: 9999; 
-}
-
-.change-password-form {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-.change-password-form input {
-  width: 200px;
- margin: 0 auto;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f8edff;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.change-password-form button {
-  padding: 8px;
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.Update-password{
-background: linear-gradient(to right, #8000ff, #c600ff);
-}
-.change-password-form button:hover {
-  background-color: #084298;
-}
-
-
-
-.profile-box {
-  background-color: #f9f9f9;
-  background: linear-gradient(to right, #8000ff, #c600ff);
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.profile-box h3,p{
-  color: black;
-}
-
-.sidebar ul li:hover {
-  background-color:black; 
-  color: white;
-} */
-
-
-
-/* ---------- Common Styles ---------- */
-.hamburger {
-  width: 35px;
-  margin: 20px;
-  cursor: pointer;
-  z-index: 9999;
-  position: fixed;
-  top: 15px;
-  left: 15px;
-}
-
-.bar {
-  height: 4px;
-  width: 100%;
-  background-color: white;
-  margin: 3px;
-  border-radius: 2px;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
   left: 0;
-  width: 240px;
-  height: 100vh;
-  background-color: #2C3E50;
-  color: #ECF0F1;
-  padding: 20px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 9998;
-  transform: translateX(0%);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
 }
 
-.sidebar.show {
-  transform: translateX(0);
+/* ================= CLOSE BUTTON ================= */
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
-.sidebar.hide {
-  transform: translateX(-100%);
-}
-
+/* ================= MENU LIST ================= */
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 .sidebar li {
-  padding: 15px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.sidebar li:hover {
-  background-color: black;
-  color: white;
-}
-
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  color: white;
-  font-size: 24px;
-  border: none;
-  cursor: pointer;
-  z-index: 9999;
-}
-
-.change-password-form {
   display: flex;
-  flex-direction: column;
-  gap: 13px;
   align-items: center;
-  margin-top: 20px;
-}
-
-.change-password-form input {
-  width: 80%;
-  max-width: 300px;
-  padding: 8px;
-  border: 1px solid #ddd;
+  gap: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
   border-radius: 8px;
-  background-color: #f8edff;
-  font-size: 16px;
-  transition: border-color 0.3s;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background 0.2s;
 }
 
-.change-password-form button {
-  padding: 10px 16px;
-  background-color: #0d6efd;
-  color: white;
+.sidebar li:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ================= PROFILE BOX ================= */
+.profile-box {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.profile-box p {
+  margin: 6px 0;
+  word-break: break-word;
+}
+
+/* ================= POPUP OVERLAY ================= */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* 🔥 above everything */
+  padding: 16px;
+}
+
+/* ================= POPUP BOX ================= */
+.popup-box {
+  background: #ffffff;
+  width: 300px;
+  max-width: 100%;
+  padding: 28px 24px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: popupFade 0.3s ease;
+}
+
+/* ================= POPUP TITLE ================= */
+.popup-box h3 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ================= INPUTS ================= */
+.popup-box input {
+  width: 250;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.popup-box input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ================= BUTTONS ================= */
+.primary-btn {
+  padding: 12px;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 15px;
   cursor: pointer;
 }
 
-.Update-password {
-  background: linear-gradient(to right, #8000ff, #c600ff);
+.primary-btn:hover {
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
 }
 
-.change-password-form button:hover {
-  background-color: #084298;
-}
-
-.profile-box {
-  background-color: #f9f9f9;
-  background: linear-gradient(to right, #8000ff, #c600ff);
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+.secondary-btn {
+  padding: 11px;
+  border-radius: 8px;
+  border: none;
+  background: #f3f4f6;
+  font-size: 14px;
+  cursor: pointer;
   color: black;
 }
 
-.profile-box h3, .profile-box p {
-  color: black;
+/* ================= MESSAGE ================= */
+.popup-message {
+  text-align: center;
+  font-size: 14px;
 }
 
-/* ---------- Responsive Styles ---------- */
+.popup-message.success {
+  color: #16a34a;
+}
 
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    padding: 15px;
+.popup-message.error {
+  color: #dc2626;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
   }
-
-  .sidebar ul {
-    margin-top: 30px;
-  }
-
-  .sidebar li {
-    font-size: 16px;
-    padding: 12px 8px;
-  }
-
-  .change-password-form input {
-    width: 90%;
-  }
-
-  .change-password-form button {
-    width: 90%;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
+/* ================= MOBILE ================= */
 @media (max-width: 480px) {
   .hamburger {
-    width: 30px;
-    top: 10px;
-    left: 10px;
+    top: 12px;
+    left: 12px;
   }
 
-  .bar {
-    height: 3px;
+  .popup-box {
+    width: 100%;
+    padding: 22px 18px;
+    border-radius: 12px;
+    animation: slideUp 0.3s ease;
   }
 
-  .sidebar {
-    padding: 10px;
+  .popup-box h3 {
+    font-size: 18px;
   }
 
-  .profile-box {
+  .popup-box input {
+    font-size: 13px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
     font-size: 14px;
-  }
-
-  .change-password-form input,
-  .change-password-form button {
-    font-size: 14px;
-    padding: 8px;
+    padding: 11px;
   }
 }
 
-.session-timer {
-  color: #d9534f;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 15px;
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

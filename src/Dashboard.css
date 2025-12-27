@@ -1,65 +1,109 @@
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f9fc;
-  overflow: hidden;
-}
-
-
+/* ================= WRAPPER ================= */
 .dashboard-wrapper {
   display: flex;
-  /* flex-direction: column; */
-  /* height: 100vh; */
-  /* overflow: hidden; */
-    min-height: 100vh;
+  min-height: 100vh;
+  background: #f4f6f9;
 }
 
-.dashboard-navbar {
+/* ================= TOP BAR ================= */
+.dashboard-topbar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 240px; /* sidebar width */
   right: 0;
-  height: 80px;
-  background-color: #0a0ef1;
-  background: linear-gradient(to right, #8000ff, #c600ff);
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
   padding: 0 20px;
-  gap: 16px;
-  z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
+.topbar-right {
+  display: flex;
+  gap: 12px;
+}
 
-.Dashboard-button {
-  margin-left: 20px;
-  color: white;
-  padding-right: 40px;
-  background: none;
-  padding: 0;
-
+/* ================= TOP BAR BUTTONS ================= */
+.topbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 14px;
   border: none;
+  cursor: pointer;
   text-decoration: none;
-  border-radius: 0;
-  font-size: 18px;
+  transition: background 0.2s, transform 0.1s;
 }
+
+.topbar-btn svg {
+  font-size: 16px;
+}
+
+.topbar-btn:hover {
+  background: #1d4ed8;
+}
+
+.topbar-btn:active {
+  transform: scale(0.96);
+}
+
+/* ================= MAIN CONTENT ================= */
 .dashboard-content {
-  flex: 1;
+  margin-left: 240px; /* sidebar width */
+  margin-top: 60px;   /* topbar height */
   padding: 20px;
-  background: #ecf0f1;
-  
+  width: calc(100% - 240px);
+  min-height: calc(100vh - 60px);
+  box-sizing: border-box;
 }
 
-
+/* ================= CHAT POPUP ================= */
 .chat-popup {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 350px;
-  height: 502px;
-  background-color: #ffffff;
-  
-} 
+  bottom: 20px;
+  right: 20px;
+  width: 340px;
+  height: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .dashboard-topbar {
+    left: 0;
+  }
+
+  .dashboard-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar-right {
+    gap: 8px;
+  }
+
+  .topbar-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .chat-popup {
+    width: 90%;
+    height: 70%;
+    right: 5%;
+    bottom: 10px;
+  }
+}

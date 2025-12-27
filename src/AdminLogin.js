@@ -1,42 +1,62 @@
-//AdminLogin.js
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 
+const API_BASE = process.env.REACT_APP_API || "http://localhost:5000";
+
 function AdminLogin({ onSuccess }) {
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  
-const handleAdminLogin = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/api/admin/admin-login", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  credentials: "include", 
-  body: JSON.stringify({ email, password }),
-});
+  const handleAdminLogin = async () => {
+    setMessage("");
 
-    const data = await res.json();
-
-    if (res.ok) {
-      localStorage.setItem("isAdminLoggedIn", "true");
-      if (onSuccess) onSuccess();
-      setMessage("Login successful");
-      navigate("/admin/dashboard");
-    } else {
-      setMessage(data.message || "Invalid credentials");
+    if (!email || !password) {
+      setMessage("❌ Email and password required");
+      return;
     }
-  } catch (err) {
-    setMessage("Server error");
-  }
-};
 
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        setMessage("✅ Admin login successful");
+
+        // 🔥 refresh admin session
+       if (onSuccess) {
+  await onSuccess();
+}
+
+setTimeout(() => {
+  navigate("/admin/dashboard", { replace: true });
+}, 150);
+
+
+      } else {
+        setMessage(data.message || "❌ Invalid credentials");
+      }
+    } catch (err) {
+      console.error("Admin login error:", err);
+      setMessage("❌ Server error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="admin-login-container">
@@ -47,6 +67,7 @@ const handleAdminLogin = async () => {
         placeholder="Enter Admin Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        disabled={loading}
       />
 
       <input
@@ -54,12 +75,22 @@ const handleAdminLogin = async () => {
         placeholder="Enter Admin Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
       />
 
-     
-      <button className="LoginAdmin" onClick={handleAdminLogin}>Login</button>
+      <button
+        className="LoginAdmin"
+        onClick={handleAdminLogin}
+        disabled={loading}
+      >
+        {loading ? "Logging in..." : "Login"}
+      </button>
 
-      {message && <p style={{ color: message.includes("Invalid") ? "red" : "green" }}>{message}</p>}
+      {message && (
+        <p style={{ color: message.startsWith("❌") ? "red" : "green" }}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }
