@@ -39,12 +39,12 @@ function Dashboard({ email, onLogout }) {
             <BsCameraVideo /> Recordings
           </Link>
 
-          <button
+          {/* <button
             className="topbar-btn"
             onClick={() => setShowChat(!showChat)}
           >
             <FaComments /> Chat
-          </button>
+          </button> */}
         </div>
       </header>
 

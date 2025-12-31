@@ -55,23 +55,23 @@ const AdminDashboard = ({ onSessionChange }) => {
             📤 Upload
           </Link>
 
-          {/* Chat button on right */}
-          <button
+        
+          {/* <button
             className="chat-icon-button"
             onClick={toggleChat}
             title="Open Chat"
           >
             <FaComments size={22} />
-          </button>
+          </button> */}
         </nav>
 
-        {/* ===== MAIN CONTENT ===== */}
+    
         <main className="admin-main-content">
           <Outlet />
         </main>
       </div>
 
-      {/* ===== CHAT POPUP ===== */}
+    
       {chatOpen && (
         <div className="chat-pops">
           <ChatAdmin onClose={toggleChat} />
