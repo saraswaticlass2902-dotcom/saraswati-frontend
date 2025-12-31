@@ -1,4 +1,4 @@
-/* ===== MAIN WRAPPER ===== */
+/* 
 .admin-dashboard-wrapper {
   display: flex;
   min-height: 100vh;
@@ -6,7 +6,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ===== LEFT SIDEBAR (AdminMenuBar) ===== */
+
 .admin-menu-bar {
   width: 230px;
   min-width: 230px;
@@ -17,14 +17,14 @@
   z-index: 10;
 }
 
-/* ===== RIGHT CONTENT AREA ===== */
+
 .admin-content-area {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== TOP NAVBAR ===== */
+
 .admin-dashboard-navbar {
   height: 60px;
   background-color: #334155;
@@ -35,7 +35,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== NAV BUTTONS ===== */
+
 .Admin-Button {
   display: flex;
   align-items: center;
@@ -53,7 +53,6 @@
   background-color: #475569;
 }
 
-/* ===== CHAT ICON BUTTON ===== */
 .chat-icon-button {
   margin-left: auto;
   border: none;
@@ -62,7 +61,7 @@
   cursor: pointer;
 }
 
-/* ===== MAIN CONTENT ===== */
+
 .admin-main-content {
   flex: 1;
   padding: 16px;
@@ -70,7 +69,7 @@
   overflow-y: auto;
 }
 
-/* ===== CHAT POPUP ===== */
+
 .chat-pops {
   position: fixed;
   bottom: 20px;
@@ -84,7 +83,7 @@
   overflow: hidden;
 }
 
-/* ===== RESPONSIVE (MOBILE) ===== */
+
 @media (max-width: 768px) {
   .admin-menu-bar {
     position: fixed;
@@ -106,5 +105,160 @@
   .Admin-Button {
     font-size: 13px;
     padding: 6px 10px;
+  }
+} */
+
+
+/* ================= ROOT ================= */
+.admin-dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6f8;
+  overflow: hidden;
+}
+
+/* ================= LEFT SIDEBAR ================= */
+.admin-sidebar {
+  width: 240px;
+  background: #0d6efd;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ================= RIGHT CONTENT ================= */
+.admin-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ================= TOP NAVBAR ================= */
+.admin-dashboard-navbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  overflow-x: auto;
+}
+
+.admin-dashboard-navbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.admin-dashboard-navbar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.Admin-Button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  background: #0d6efd;
+  color: #fff;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.Admin-Button:hover {
+  background: #084298;
+}
+
+/* ================= CHAT ICON ================= */
+.chat-icon-button {
+  margin-left: auto;
+  background: #198754;
+  color: #fff;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chat-icon-button:hover {
+  background: #146c43;
+}
+
+/* ================= MAIN CONTENT ================= */
+.admin-main-content {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/* ================= CHAT POPUP ================= */
+.chat-pops {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 350px;
+  max-width: 95%;
+  height: 480px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  overflow: hidden;
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .admin-dashboard-wrapper {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .admin-dashboard-navbar {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .Admin-Button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .chat-icon-button {
+    padding: 6px 8px;
+  }
+
+  .admin-main-content {
+    padding: 10px;
+  }
+
+  .chat-pops {
+    right: 5px;
+    bottom: 5px;
+    width: 95%;
+    height: 90%;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 480px) {
+  .Admin-Button span {
+    display: none;
+  }
+
+  .Admin-Button {
+    padding: 6px;
+  }
+
+  .admin-dashboard-navbar {
+    padding: 8px 5px;
+  }
+
+  .chat-icon-button {
+    border-radius: 8px;
   }
 }

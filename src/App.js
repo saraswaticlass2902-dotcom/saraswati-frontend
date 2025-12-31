@@ -634,7 +634,9 @@ import AdminCreate from "./AdminCreate";
 import { FaGraduationCap } from "react-icons/fa";
 import "./App.css";
 
-const API_BASE = process.env.REACT_APP_API;
+const API_BASE =
+  process.env.REACT_APP_API || "http://localhost:5000";
+
 
 /* ================= SESSION FETCH ================= */
 async function fetchMe() {
