@@ -1024,40 +1024,30 @@ function AppWrapper() {
             <FaGraduationCap /> Saraswati Classes
           </h4>
 
-          <div className="navbar-right">
-            {!auth && (
-              <>
-                <Link to="/" className="nav-button">Home</Link>
+  <div className="navbar-right">
+  <Link to="/" className="nav-button">Home</Link>
 
-                <div className="dropdown">
-                  <button className="nav-button dropdown-toggle">
-                    Login ▾
-                  </button>
-                  <div className="dropdown-menu">
-                    <Link to="/login" className="dropdown-item">
-                      User Login
-                    </Link>
-                    <Link to="/admin-login" className="dropdown-item">
-                      Admin Login
-                    </Link>
-                    {/* Optional admin create */}
-                    {/* 
-                    <button
-                      className="dropdown-item"
-                      onClick={openAdminPopup}
-                    >
-                      Admin Create
-                    </button>
-                    */}
-                  </div>
-                </div>
+  <div className="dropdown">
+    <button className="nav-button dropdown-toggle">
+      Login ▾
+    </button>
+    <div className="dropdown-menu">
+      <Link to="/login" className="dropdown-item">
+        User Login
+      </Link>
+      <Link to="/admin-login" className="dropdown-item">
+        Admin Login
+      </Link>
+    </div>
+  </div>
 
-                <Link to="/registration" className="nav-button">
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
+  <Link to="/registration" className="nav-button">
+    Sign Up
+  </Link>
+</div>
+
+
+              
         </nav>
       )}
 
@@ -1164,3 +1154,16 @@ export default function App() {
     </Router>
   );
 }
+
+
+
+
+{/* Optional admin create */}
+                    {/* 
+                    <button
+                      className="dropdown-item"
+                      onClick={openAdminPopup}
+                    >
+                      Admin Create
+                    </button>
+                    */}
