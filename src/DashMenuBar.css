@@ -1,73 +1,73 @@
 /* ================= HAMBURGER ================= */
 .hamburger {
   position: fixed;
-  top: 15px;
-  left: 15px;
-  width: 32px;
+  top: 12px;
+  left: 12px;
+  z-index: 1001;
   cursor: pointer;
-  z-index: 300; /* above sidebar */
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .hamburger .bar {
-  height: 4px;
-  width: 100%;
-  background: #1e293b;
-  margin: 5px 0;
-  border-radius: 4px;
+  width: 22px;
+  height: 3px;
+  background: #0d6efd;
+  margin: 4px 0;
+  border-radius: 2px;
 }
 
 /* ================= SIDEBAR ================= */
 .sidebar {
   position: fixed;
   top: 0;
-  left: -260px;
+  left: 0;
   width: 260px;
   height: 100vh;
-  background: #0f172a;
-  color: #fff;
-  z-index: 250;
-  padding: 20px 16px;
-  transition: left 0.3s ease;
-  overflow-y: auto;
+  background: #0b5ed7;
+  color: #ffffff;
+  z-index: 1000;
+  padding-top: 60px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
 }
 
 .sidebar.show {
-  left: 0;
+   transform: translateX(0);
 }
 
 /* ================= CLOSE BUTTON ================= */
 .close-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 26px;
-  cursor: pointer;
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 /* ================= MENU LIST ================= */
 .sidebar ul {
   list-style: none;
   padding: 0;
-  margin-top: 50px;
+  margin: 0;
 }
 
 .sidebar li {
+  padding: 14px 20px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.06);
-  transition: background 0.2s;
+  font-size: 15px;
+  transition: background 0.2s ease;
 }
 
 .sidebar li:hover {
-  background: rgba(255, 255, 255, 0.18);
+   background: rgba(255, 255, 255, 0.15);
 }
 
 /* ================= PROFILE BOX ================= */
