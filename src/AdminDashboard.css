@@ -1,19 +1,8 @@
-/* ================= ROOT ================= */
+/* ================= MAIN WRAPPER ================= */
 .admin-dashboard-wrapper {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  background: #0d6efd; /* 🔥 FULL BLUE */
-  overflow: hidden;
-  color: #fff;
-}
-
-/* ================= LEFT SIDEBAR ================= */
-.admin-sidebar {
-  width: 240px;
-  background: #0b5ed7; /* darker blue */
-  color: #fff;
-  flex-shrink: 0;
+  background: #0b5ed7; /* full blue background */
 }
 
 /* ================= RIGHT CONTENT ================= */
@@ -21,154 +10,116 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #0d6efd; /* 🔥 BLUE */
-  overflow: hidden;
+  background: #f4f7fc;
 }
 
 /* ================= TOP NAVBAR ================= */
 .admin-dashboard-navbar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px;
+  justify-content: flex-end; /* 🔥 buttons right side */
+  gap: 12px;
+  padding: 12px 16px;
   background: #0b5ed7;
+  color: #ffffff;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  overflow-x: auto;
+  flex-wrap: wrap;
 }
 
-.admin-dashboard-navbar::-webkit-scrollbar {
-  height: 4px;
-}
-.admin-dashboard-navbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-}
-
-/* ================= NAV BUTTONS ================= */
+/* ================= NAV BUTTON ================= */
 .Admin-Button {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
   text-decoration: none;
-  background: #ffffff; /* white contrast */
-  color: #0d6efd;
+  border-radius: 6px;
   font-size: 14px;
-  font-weight: 500;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .Admin-Button:hover {
-  background: #e7f0ff;
+  background: rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
 }
 
-/* ================= CHAT ICON ================= */
+/* ================= CHAT BUTTON ================= */
 .chat-icon-button {
-  margin-left: auto;
-  background: #198754;
-  color: #fff;
+  margin-left: 10px;
+  background: #ffffff;
   border: none;
-  padding: 9px 11px;
   border-radius: 50%;
+  padding: 9px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  color: #0b5ed7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .chat-icon-button:hover {
-  background: #146c43;
+  background: #e7f1ff;
 }
 
 /* ================= MAIN CONTENT ================= */
 .admin-main-content {
   flex: 1;
-  padding: 16px;
-  background: #0d6efd; /* 🔥 FULL BLUE */
+  padding: 20px;
   overflow-y: auto;
-}
-
-/* Inner pages as white cards */
-.admin-main-content > * {
-  background: #ffffff;
-  color: #000;
-  border-radius: 10px;
-  padding: 16px;
-  min-height: calc(100vh - 120px);
+  background: #f4f7fc;
 }
 
 /* ================= CHAT POPUP ================= */
 .chat-pops {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  width: 360px;
-  max-width: 95%;
-  height: 500px;
+  right: 20px;
+  bottom: 20px;
+  width: 340px;
+  height: 420px;
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  z-index: 999;
+  z-index: 2000;
   overflow: hidden;
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
-@media (max-width: 768px) {
-  .admin-dashboard-wrapper {
-    flex-direction: column;
-  }
-
-  .admin-sidebar {
-    width: 100%;
-    height: auto;
-  }
-
-  .admin-dashboard-navbar {
-    padding: 10px;
-    gap: 8px;
-  }
-
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
   .Admin-Button {
     font-size: 13px;
-    padding: 6px 10px;
-  }
-
-  .chat-icon-button {
-    padding: 7px 9px;
-  }
-
-  .admin-main-content {
-    padding: 10px;
-  }
-
-  .admin-main-content > * {
-    padding: 12px;
-  }
-
-  .chat-pops {
-    right: 6px;
-    bottom: 6px;
-    width: 95%;
-    height: 90%;
+    padding: 7px 12px;
   }
 }
 
-/* ================= SMALL MOBILE ================= */
-@media (max-width: 480px) {
-  .Admin-Button {
-    padding: 6px;
-  }
-
+@media (max-width: 768px) {
   .admin-dashboard-navbar {
-    padding: 8px 6px;
+    justify-content: center; /* mobile वर center */
+    gap: 8px;
   }
 
   .chat-icon-button {
-    border-radius: 8px;
+    margin-left: 0;
   }
 
-  .admin-main-content > * {
-    border-radius: 8px;
+  .admin-main-content {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Admin-Button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .chat-pops {
+    width: 92%;
+    height: 380px;
+    right: 4%;
+    bottom: 10px;
   }
 }
