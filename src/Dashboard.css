@@ -1,109 +1,137 @@
-/* ================= WRAPPER ================= */
+/* ================= ROOT ================= */
 .dashboard-wrapper {
   display: flex;
-  min-height: 100vh;
-  background: #f4f6f9;
+  height: 100vh;
+  width: 100%;
+  background: #f4f7fc;
+  overflow: hidden;
 }
 
 /* ================= TOP BAR ================= */
 .dashboard-topbar {
-  position: fixed;
+  position: sticky;        /* 🔥 top ला fixed */
   top: 0;
-  left: 240px; /* sidebar width */
-  right: 0;
-  height: 60px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 20px;
-  z-index: 10;
+  z-index: 1000;
+
+  background: #0d6efd;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
+/* ================= TOP BAR BUTTON CONTAINER ================= */
 .topbar-right {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+
+  overflow-x: auto;        /* 🔥 horizontal scroll */
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
-/* ================= TOP BAR BUTTONS ================= */
+/* scrollbar styling */
+.topbar-right::-webkit-scrollbar {
+  height: 5px;
+}
+.topbar-right::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+/* ================= TOP BAR BUTTON ================= */
 .topbar-btn {
-  display: flex;
+  flex-shrink: 0;          /* 🔥 button shrink होणार नाही */
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  background: #2563eb;
-  color: #fff;
+
+  padding: 7px 14px;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #0d6efd;
+  text-decoration: none;
   font-size: 14px;
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.topbar-btn svg {
-  font-size: 16px;
+  transition: all 0.2s ease;
 }
 
 .topbar-btn:hover {
-  background: #1d4ed8;
-}
-
-.topbar-btn:active {
-  transform: scale(0.96);
+  background: #e7f0ff;
+  transform: translateY(-1px);
 }
 
 /* ================= MAIN CONTENT ================= */
 .dashboard-content {
-  margin-left: 240px; /* sidebar width */
-  margin-top: 60px;   /* topbar height */
-  padding: 20px;
-  width: calc(100% - 240px);
-  min-height: calc(100vh - 60px);
-  box-sizing: border-box;
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;        /* 🔥 only content scroll */
+  background: #f4f7fc;
 }
 
 /* ================= CHAT POPUP ================= */
 .chat-popup {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  right: 16px;
+  bottom: 16px;
   width: 340px;
+  max-width: 95%;
   height: 420px;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  z-index: 2000;
   overflow: hidden;
-  z-index: 50;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 900px) {
+/* ================= TABLET ================= */
+@media (max-width: 1024px) {
+  .topbar-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
+
   .dashboard-topbar {
-    left: 0;
+    padding: 8px 10px;
   }
 
-  .dashboard-content {
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
-@media (max-width: 600px) {
   .topbar-right {
     gap: 8px;
   }
 
-  .topbar-btn {
-    padding: 6px 10px;
-    font-size: 13px;
+  .dashboard-content {
+    padding: 12px;
   }
 
   .chat-popup {
-    width: 90%;
-    height: 70%;
-    right: 5%;
-    bottom: 10px;
+    right: 8px;
+    bottom: 8px;
+    width: 95%;
+    height: 85%;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 480px) {
+  .topbar-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .dashboard-content {
+    padding: 10px;
+  }
+
+  .chat-popup {
+    width: 96%;
+    height: 90%;
   }
 }
