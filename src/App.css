@@ -1,202 +1,336 @@
-/* ================= ROOT ================= */
-* {
-  box-sizing: border-box;
-}
-
+/*App.css   */
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #f4f6fb;
+  font-family: 'Segoe UI', sans-serif;
+  width: 100%;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px; 
 }
 
 .app-wrapper {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+  min-height: 100vh; 
 }
 
-/* ================= NAVBAR ================= */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 200;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: #0d20ec;
+  background: linear-gradient(to right, #8000ff, #c600ff);
+
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  background: #0d6efd;
-  color: #fff;
+  padding: 0 25px;
+  z-index: 999;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.navbar h4 {
+
+.IconApps {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  gap: 10px;
 }
 
-/* ================= NAV RIGHT ================= */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.IconApp {
+  width: 150px;
+  height: 60px;
+  border-radius: 100px;
+  border-style: solid;
 }
 
-/* ================= NAV BUTTON ================= */
-.nav-button {
-  background: #ffffff;
-  color: #0d6efd;
-  padding: 8px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
+.navbar-right .nav-button {
+  margin-left: 20px;
+  color: white;
+  padding-right: 40px;
+  background: none;
+  padding: 0;
   border: none;
-  cursor: pointer;
-  transition: 0.2s;
+  text-decoration: none;
+  border-radius: 0;
+  font-size: 18px;
+
 }
 
-.nav-button:hover {
-  background: #e7f0ff;
+
+.navbar-right .nav-button:hover {
+  transform: translateY(-2px);     
 }
 
-/* ================= DROPDOWN ================= */
+.navbar-right .nav-button:active {
+  transform: translateY(0);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f5f7fa;
+}
+
+
+footer {
+  background-color: #1a237e;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  flex-shrink: 0;
+}
+
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .navbar-right {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .app-title {
+    font-size: 18px;
+  }
+
+  .nav-button {
+    width: 100%;
+    font-size: 16px;
+    max-width: 250px;
+  }
+
+  .IconApp {
+    width: 50px;
+    height: 50px;
+  }
+}  
+
 .dropdown {
   position: relative;
+  display: inline-block;
 }
 
 .dropdown-toggle {
-  background: #ffffff;
-  color: #0d6efd;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  color: white;
+  font-weight: bold;
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 110%;
-  right: 0;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  min-width: 160px;
   display: none;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 500;
+  position: absolute;
+  background-color: white;
+  min-width: 170px;
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .dropdown:hover .dropdown-menu {
-  display: flex;
+  display: block;
 }
 
 .dropdown-item {
-  padding: 10px 14px;
-  font-size: 14px;
+  padding: 10px 15px;
+  color: #000;
   text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #eee;
-}
-
-.dropdown-item:last-child {
-  border-bottom: none;
+  display: block;
 }
 
 .dropdown-item:hover {
-  background: #f1f4ff;
+  background-color: #f0f0f0;
 }
 
-/* ================= ADMIN POPUP ================= */
+
+
+
+/* Existing styles remain unchanged... add these below */
+
+@media (max-width: 992px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .navbar-right {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+  }
+
+  .navbar-right .nav-button {
+    margin: 5px 0;
+    padding: 6px 12px;
+    font-size: 16px;
+    background-color: #6a1b9a;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 220px;
+    text-align: left;
+  }
+
+  .IconApp {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .dropdown-item {
+    padding: 12px 20px;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .nav-button {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  footer {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+}
+
+
+
+/* ===== ADMIN SECRET POPUP ===== */
+
 .admin-popup-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
-  display: grid;
-  place-items: center;
-  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
+/* Popup box */
 .admin-popup {
-  width: 90%;
-  max-width: 380px;
   background: #ffffff;
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  animation: popupFade 0.25s ease;
+  width: 340px;
+  padding: 22px 24px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: popupFadeIn 0.25s ease-out;
 }
 
-@keyframes popupFade {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
+/* Title */
 .admin-popup h3 {
-  margin-bottom: 14px;
-  color: #0d6efd;
+  margin: 0 0 14px;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
 }
 
+/* Input field */
 .admin-popup input {
   width: 100%;
   padding: 10px 12px;
+  margin-top: 10px;
+  font-size: 14px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
-  font-size: 14px;
+  outline: none;
 }
 
+.admin-popup input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* Error text */
 .error-text {
-  color: #dc3545;
+  color: #d32f2f;
   font-size: 13px;
-  margin-bottom: 10px;
+  margin-top: 8px;
+  text-align: center;
 }
 
-/* ================= POPUP ACTIONS ================= */
+/* Buttons container */
 .popup-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  justify-content: space-between;
+  margin-top: 18px;
 }
 
+/* Buttons */
 .popup-actions button {
-  flex: 1;
-  padding: 9px;
-  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 6px;
   border: none;
-  font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
+/* Verify button */
 .popup-actions button:first-child {
-  background: #0d6efd;
+  background: #007bff;
   color: #fff;
 }
 
+.popup-actions button:first-child:hover {
+  background: #0056b3;
+}
+
+/* Cancel button */
 .popup-actions button:last-child {
-  background: #6c757d;
-  color: #fff;
+  background: #e0e0e0;
+  color: #333;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 10px 12px;
-  }
+.popup-actions button:last-child:hover {
+  background: #cfcfcf;
+}
 
-  .navbar h4 {
-    font-size: 16px;
+/* Animation */
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-
-  .nav-button {
-    padding: 7px 10px;
-    font-size: 13px;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
+}
 
-  .dropdown-menu {
-    right: 0;
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .admin-popup {
+    width: 90%;
   }
 }
