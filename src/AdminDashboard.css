@@ -1,47 +1,36 @@
 /* ================= ROOT ================= */
 .admin-dashboard-wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  background: #0d6efd; /* FULL BLUE */
+  background: #0d6efd; /* 🔥 FULL BLUE */
   overflow: hidden;
-  color: #ffffff;
+  color: #fff;
 }
 
 /* ================= LEFT SIDEBAR ================= */
 .admin-sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 240px;
-  height: 100vh;
-  background: #0b5ed7;
-  color: #ffffff;
-  z-index: 1200;
-  overflow-y: auto;
+  background: #0b5ed7; /* darker blue */
+  color: #fff;
+  flex-shrink: 0;
 }
 
 /* ================= RIGHT CONTENT ================= */
 .admin-content-area {
-  margin-left: 240px; /* sidebar space */
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background: #0d6efd;
+  background: #0d6efd; /* 🔥 BLUE */
   overflow: hidden;
 }
 
 /* ================= TOP NAVBAR ================= */
 .admin-dashboard-navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1100;
-
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 12px;
   background: #0b5ed7;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   overflow-x: auto;
@@ -63,7 +52,7 @@
   padding: 8px 14px;
   border-radius: 6px;
   text-decoration: none;
-  background: #ffffff;
+  background: #ffffff; /* white contrast */
   color: #0d6efd;
   font-size: 14px;
   font-weight: 500;
@@ -80,7 +69,7 @@
 .chat-icon-button {
   margin-left: auto;
   background: #198754;
-  color: #ffffff;
+  color: #fff;
   border: none;
   padding: 9px 11px;
   border-radius: 50%;
@@ -96,14 +85,14 @@
 .admin-main-content {
   flex: 1;
   padding: 16px;
+  background: #0d6efd; /* 🔥 FULL BLUE */
   overflow-y: auto;
-  background: #0d6efd;
 }
 
-/* Inner page white card */
+/* Inner pages as white cards */
 .admin-main-content > * {
   background: #ffffff;
-  color: #000000;
+  color: #000;
   border-radius: 10px;
   padding: 16px;
   min-height: calc(100vh - 120px);
@@ -120,7 +109,7 @@
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  z-index: 2000;
+  z-index: 999;
   overflow: hidden;
 }
 
@@ -131,20 +120,13 @@
   }
 
   .admin-sidebar {
-    width: 220px;
-    height: 100vh;
-    position: fixed;
-    z-index: 1300;
-  }
-
-  .admin-content-area {
-    margin-left: 0;
+    width: 100%;
+    height: auto;
   }
 
   .admin-dashboard-navbar {
     padding: 10px;
     gap: 8px;
-    justify-content: center;
   }
 
   .Admin-Button {
@@ -176,7 +158,6 @@
 @media (max-width: 480px) {
   .Admin-Button {
     padding: 6px;
-    font-size: 12px;
   }
 
   .admin-dashboard-navbar {
