@@ -9,9 +9,9 @@
 
 /* ================= TOP BAR ================= */
 .dashboard-topbar {
-  position: sticky;        /* 🔥 top ला fixed */
+  position: sticky;          /* 🔥 top ला fixed */
   top: 0;
-  z-index: 1000;
+  z-index: 1100;
 
   background: #0d6efd;
   padding: 10px 12px;
@@ -24,23 +24,25 @@
   align-items: center;
   gap: 10px;
 
-  overflow-x: auto;        /* 🔥 horizontal scroll */
+  overflow-x: auto;          /* 🔥 horizontal scroll */
   overflow-y: hidden;
   white-space: nowrap;
+  scroll-behavior: smooth;
 }
 
 /* scrollbar styling */
 .topbar-right::-webkit-scrollbar {
   height: 5px;
 }
+
 .topbar-right::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.45);
   border-radius: 10px;
 }
 
 /* ================= TOP BAR BUTTON ================= */
 .topbar-btn {
-  flex-shrink: 0;          /* 🔥 button shrink होणार नाही */
+  flex-shrink: 0;            /* 🔥 shrink होणार नाही */
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -54,6 +56,8 @@
   font-weight: 500;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
+
   transition: all 0.2s ease;
 }
 
@@ -66,7 +70,7 @@
 .dashboard-content {
   flex: 1;
   padding: 16px;
-  overflow-y: auto;        /* 🔥 only content scroll */
+  overflow-y: auto;          /* 🔥 only content scroll */
   background: #f4f7fc;
 }
 
@@ -78,6 +82,7 @@
   width: 340px;
   max-width: 95%;
   height: 420px;
+
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
