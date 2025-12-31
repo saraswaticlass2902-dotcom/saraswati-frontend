@@ -1,14 +1,25 @@
 /* ================= ROOT ================= */
 .admin-chat-container {
+  /* ================= ADMIN CHAT CENTER ================= */
+.admin-chat-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 600px;          /* 🔥 small size */
+  max-width: 95%;
+  height: 520px;
+  max-height: 90vh;
+
   display: flex;
-  height: calc(100vh - 60px);
-  width: 600px;
-  max-width: 100%;
-  font-family: "Segoe UI", sans-serif;
   background-color: #f0f2f5;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  z-index: 2000;
+}
+
 }
 
 /* ================= USER LIST ================= */
@@ -216,5 +227,22 @@
   .chat-input button {
     font-size: 13px;
     padding: 8px 14px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .admin-chat-container {
+    width: 95%;
+    height: 85%;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-chat-container {
+    width: 96%;
+    height: 90%;
+    border-radius: 8px;
   }
 }
