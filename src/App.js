@@ -959,6 +959,7 @@ function AppWrapper() {
   const [adminSecret, setAdminSecret] = useState("");
   const [adminError, setAdminError] = useState("");
   const [adminVerified, setAdminVerified] = useState(false);
+  const [showLoginMenu, setShowLoginMenu] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -1028,18 +1029,33 @@ function AppWrapper() {
   <Link to="/" className="nav-button">Home</Link>
 
   <div className="dropdown">
-    <button className="nav-button dropdown-toggle">
-      Login ▾
-    </button>
+  <button
+    className="nav-button dropdown-toggle"
+    onClick={() => setShowLoginMenu(prev => !prev)}
+  >
+    Login ▾
+  </button>
+
+  {showLoginMenu && (
     <div className="dropdown-menu">
-      <Link to="/login" className="dropdown-item">
+      <Link
+        to="/login"
+        className="dropdown-item"
+        onClick={() => setShowLoginMenu(false)}
+      >
         User Login
       </Link>
-      <Link to="/admin-login" className="dropdown-item">
+
+      <Link
+        to="/admin-login"
+        className="dropdown-item"
+        onClick={() => setShowLoginMenu(false)}
+      >
         Admin Login
       </Link>
     </div>
-  </div>
+  )}
+</div>
 
   <Link to="/registration" className="nav-button">
     Sign Up
