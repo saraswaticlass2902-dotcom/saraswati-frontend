@@ -41,16 +41,23 @@ function DashMenuBar({ email, onLogout }) {
 
   /* ================= AUTO LOGOUT ================= */
   const handleLogout = async () => {
-    try {
-      await fetch(`${API_BASE}/api/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-    } finally {
-      if (onLogout) await onLogout();
-      navigate("/login", { replace: true });
+  try {
+    await fetch(`${API_BASE}/api/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+    });
+  } catch (err) {
+    console.error("Logout failed", err);
+  } finally {
+    // 🔥 MOST IMPORTANT LINE
+    if (onLogout) {
+      onLogout(null); // auth = null in App.js
     }
-  };
+
+    navigate("/login", { replace: true });
+  }
+};
+
 
   /* ================= FETCH PROFILE ================= */
   useEffect(() => {
