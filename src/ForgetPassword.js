@@ -330,56 +330,49 @@
 //     </div>
 //   );
 // }
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
-  sendPasswordResetEmail,
-  verifyPasswordResetCode,
-  confirmPasswordReset,
+  sendEmailVerification,
+  applyActionCode,
+  updatePassword,
 } from "firebase/auth";
 import { auth } from "./firebase";
-
-const API_BASE =
-  process.env.REACT_APP_API || "http://localhost:5000";
 
 function ChangePassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
   const oobCode = params.get("oobCode");
+  const mode = params.get("mode"); // verifyEmail
 
-  const [step, setStep] = useState(oobCode ? "reset" : "email");
+  const [step, setStep] = useState("email"); // email | reset
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // 🔥 NEW: message state (same like Registration)
   const [message, setMessage] = useState("");
 
   /* ======================================================
-     WHEN USER CLICKS EMAIL LINK
+     WHEN USER CLICKS EMAIL VERIFICATION LINK
      ====================================================== */
   useEffect(() => {
-    if (!oobCode) return;
+    if (!oobCode || mode !== "verifyEmail") return;
 
-    verifyPasswordResetCode(auth, oobCode)
-      .then((emailFromLink) => {
-        setEmail(emailFromLink);
-        setStep("reset");
+    applyActionCode(auth, oobCode)
+      .then(() => {
         setMessage(
-          "Link verified successfully ✅ You can now change password."
+          "Email verified successfully ✅ You can now change password."
         );
+        setStep("reset"); // 🔥 open change password automatically
       })
       .catch(() => {
-        setMessage("Invalid or expired link ❌");
-        setStep("email");
+        setMessage("Invalid or expired verification link ❌");
       });
-  }, [oobCode]);
+  }, [oobCode, mode]);
 
   /* ======================================================
-     SEND RESET LINK
+     SEND EMAIL VERIFICATION LINK
      ====================================================== */
   const handleSendLink = async () => {
     if (!email) {
@@ -387,43 +380,36 @@ function ChangePassword() {
       return;
     }
 
+    const user = auth.currentUser;
+    if (!user) {
+      setMessage("Please login first");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/check-email`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-      if (!data.exists) {
-        setMessage("Email not registered ❌");
-        setLoading(false);
-        return;
-      }
-
-      await sendPasswordResetEmail(auth, email, {
+      await sendEmailVerification(user, {
         url: "http://localhost:3000/change-password",
         handleCodeInApp: true,
       });
 
       setMessage(
-        "Password reset link sent to your email. Please check inbox."
+        "Verification link sent to your email. Please verify."
       );
     } catch (err) {
       console.error(err);
-      setMessage("Failed to send reset link ❌");
+      setMessage("Failed to send verification link ❌");
     } finally {
       setLoading(false);
     }
   };
 
   /* ======================================================
-     RESET PASSWORD
+     CHANGE PASSWORD AFTER EMAIL VERIFIED
      ====================================================== */
-  const handleResetPassword = async () => {
+  const handleChangePassword = async () => {
     if (!newPass || !confirmPass) {
       setMessage("Please fill all fields");
       return;
@@ -434,24 +420,22 @@ function ChangePassword() {
       return;
     }
 
+    const user = auth.currentUser;
+    if (!user) {
+      setMessage("Please login again");
+      return;
+    }
+
     setLoading(true);
     try {
-      await confirmPasswordReset(auth, oobCode, newPass);
-
-      await fetch(`${API_BASE}/api/auth/reset-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          newPassword: newPass,
-        }),
-      });
-
+      await updatePassword(user, newPass);
       setMessage("Password changed successfully ✅ You can now login.");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error(err);
-      setMessage("Password reset failed ❌");
+      setMessage(
+        "Password update failed ❌ (Re-login may be required)"
+      );
     } finally {
       setLoading(false);
     }
@@ -464,24 +448,25 @@ function ChangePassword() {
     <div className="auth-box">
       <h2>Change Password</h2>
 
-      {/* 🔥 MESSAGE LIKE REGISTRATION */}
       {message && <p className="form-message">{message}</p>}
 
+      {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
         <>
           <input
             type="email"
-            placeholder="Enter your registered email ss"
+            placeholder="Enter your email oo"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <button onClick={handleSendLink} disabled={loading}>
-            {loading ? "Sending..." : "Send Link"}
+            {loading ? "Sending..." : "Send Verification Link"}
           </button>
         </>
       )}
 
+      {/* ================= RESET STEP ================= */}
       {step === "reset" && (
         <>
           <input
@@ -498,7 +483,7 @@ function ChangePassword() {
             onChange={(e) => setConfirmPass(e.target.value)}
           />
 
-          <button onClick={handleResetPassword} disabled={loading}>
+          <button onClick={handleChangePassword} disabled={loading}>
             {loading ? "Updating..." : "Update Password"}
           </button>
         </>
