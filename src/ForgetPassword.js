@@ -332,13 +332,12 @@
 // }
 
 // export default ChangePassword;
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
   sendPasswordResetEmail,
-  confirmPasswordReset,
   verifyPasswordResetCode,
+  confirmPasswordReset,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -349,19 +348,20 @@ function ChangePassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  // 🔹 Firebase token from email link
+  // 🔹 Firebase action code from email link
   const oobCode = params.get("oobCode");
 
-  // 🔥 IMPORTANT: auto open reset screen if link clicked
+  // 🔥 IMPORTANT: auto-open reset screen if link clicked
   const [step, setStep] = useState(oobCode ? "reset" : "email");
 
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(!!oobCode);
 
   /* ======================================================
-     WHEN USER CLICKS EMAIL LINK → AUTO OPEN RESET
+     WHEN USER CLICKS EMAIL LINK → AUTO OPEN RESET UI
      ====================================================== */
   useEffect(() => {
     if (!oobCode) return;
@@ -369,12 +369,13 @@ function ChangePassword() {
     verifyPasswordResetCode(auth, oobCode)
       .then((emailFromLink) => {
         setEmail(emailFromLink);
-        setStep("reset"); // 🔥 force reset screen
+        setStep("reset"); // 🔥 same feel as "Login button appears"
       })
       .catch(() => {
         alert("Invalid or expired link");
         setStep("email");
-      });
+      })
+      .finally(() => setChecking(false));
   }, [oobCode]);
 
   /* ======================================================
@@ -388,6 +389,7 @@ function ChangePassword() {
 
     setLoading(true);
     try {
+      // optional backend check (recommended)
       const res = await fetch(`${API_BASE}/api/auth/check-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -397,9 +399,11 @@ function ChangePassword() {
       const data = await res.json();
       if (!data.exists) {
         alert("Email not registered");
+        setLoading(false);
         return;
       }
 
+      // 🔹 send firebase reset link with redirect
       await sendPasswordResetEmail(auth, email, {
         url: "http://localhost:3000/change-password",
         handleCodeInApp: true,
@@ -430,8 +434,10 @@ function ChangePassword() {
 
     setLoading(true);
     try {
+      // 🔹 Firebase password reset
       await confirmPasswordReset(auth, oobCode, newPass);
 
+      // 🔹 Backend password update (MongoDB)
       await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -450,6 +456,17 @@ function ChangePassword() {
       setLoading(false);
     }
   };
+
+  /* ======================================================
+     UI
+     ====================================================== */
+  if (checking) {
+    return (
+      <div className="auth-box">
+        <h3>Opening change password…</h3>
+      </div>
+    );
+  }
 
   return (
     <div className="auth-box">
