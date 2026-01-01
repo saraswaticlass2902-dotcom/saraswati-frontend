@@ -176,6 +176,164 @@
 
 // export default ForgetPassword;
 
+// import React, { useState, useEffect } from "react";
+// import { useSearchParams, useNavigate } from "react-router-dom";
+// import {
+//   sendPasswordResetEmail,
+//   confirmPasswordReset,
+//   verifyPasswordResetCode,
+// } from "firebase/auth";
+// import { auth } from "./firebase";
+
+// const API_BASE =
+//   process.env.REACT_APP_API || "http://localhost:5000";
+
+// function ChangePassword() {
+//   const [params] = useSearchParams();
+//   const navigate = useNavigate();
+
+//   const oobCode = params.get("oobCode");
+
+//   const [step, setStep] = useState("email"); // email | reset
+//   const [email, setEmail] = useState("");
+//   const [newPass, setNewPass] = useState("");
+//   const [confirmPass, setConfirmPass] = useState("");
+//   const [loading, setLoading] = useState(false);
+
+//   // ================= LINK CLICK झाल्यावर =================
+//   useEffect(() => {
+//     if (!oobCode) return;
+
+//     verifyPasswordResetCode(auth, oobCode)
+//       .then((email) => {
+//         setEmail(email);
+//         setStep("reset");
+//       })
+//       .catch(() => alert("Invalid or expired link"));
+//   }, [oobCode]);
+
+//   // ================= SEND LINK (EMAIL EXISTS CHECK) =================
+//   const handleSendLink = async () => {
+//     if (!email) {
+//       alert("Enter email");
+//       return;
+//     }
+
+//     setLoading(true);
+//     try {
+//       // 🔹 1️⃣ Backend ला email check
+//       const res = await fetch(`${API_BASE}/api/auth/check-email`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ email }),
+//       });
+
+//       const data = await res.json();
+
+//       if (!data.exists) {
+//         alert("Email not registered");
+//         return;
+//       }
+
+//       // 🔹 2️⃣ Email exists → Firebase reset link
+//       await sendPasswordResetEmail(auth, email);
+
+//       alert("Reset link sent to your email");
+//     } catch (err) {
+//       console.error(err);
+//       alert("Failed to send link");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // ================= RESET PASSWORD =================
+//   const handleResetPassword = async () => {
+//     if (!newPass || !confirmPass) {
+//       alert("Fill all fields");
+//       return;
+//     }
+
+//     if (newPass !== confirmPass) {
+//       alert("Passwords do not match");
+//       return;
+//     }
+
+//     setLoading(true);
+//     try {
+//       // 🔹 Firebase password update
+//       await confirmPasswordReset(auth, oobCode, newPass);
+
+//       // 🔹 MongoDB password update
+//       await fetch(`${API_BASE}/api/auth/reset-password`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           email,
+//           newPassword: newPass,
+//         }),
+//       });
+
+//       alert("Password changed successfully");
+//       navigate("/login");
+//     } catch (err) {
+//       console.error(err);
+//       alert("Password reset failed");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="auth-box">
+//       {step === "email" && (
+//         <>
+//           <h2>Enter Email</h2>
+
+//           <input
+//             type="email"
+//             placeholder="Enter your registered email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+
+//           <button onClick={handleSendLink} disabled={loading}>
+//             {loading ? "Sending..." : "Send Link"}
+//           </button>
+//         </>
+//       )}
+
+//       {step === "reset" && (
+//         <>
+//           <h2>Set New Password</h2>
+//           <p><b>Email:</b> {email}</p>
+
+//           <input
+//             type="password"
+//             placeholder="New password"
+//             value={newPass}
+//             onChange={(e) => setNewPass(e.target.value)}
+//           />
+
+//           <input
+//             type="password"
+//             placeholder="Confirm new password"
+//             value={confirmPass}
+//             onChange={(e) => setConfirmPass(e.target.value)}
+//           />
+
+//           <button onClick={handleResetPassword} disabled={loading}>
+//             {loading ? "Updating..." : "Update Password"}
+//           </button>
+//         </>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default ChangePassword;
+
+
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -192,6 +350,7 @@ function ChangePassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
+  // 🔹 Firebase token from email link
   const oobCode = params.get("oobCode");
 
   const [step, setStep] = useState("email"); // email | reset
@@ -200,19 +359,27 @@ function ChangePassword() {
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ================= LINK CLICK झाल्यावर =================
+  /* ======================================================
+     WHEN USER CLICKS EMAIL LINK
+     ====================================================== */
   useEffect(() => {
     if (!oobCode) return;
 
+    // 🔹 verify reset link and fetch email
     verifyPasswordResetCode(auth, oobCode)
-      .then((email) => {
-        setEmail(email);
+      .then((emailFromLink) => {
+        setEmail(emailFromLink);
         setStep("reset");
       })
-      .catch(() => alert("Invalid or expired link"));
+      .catch(() => {
+        alert("Invalid or expired link");
+        setStep("email");
+      });
   }, [oobCode]);
 
-  // ================= SEND LINK (EMAIL EXISTS CHECK) =================
+  /* ======================================================
+     SEND RESET LINK TO EMAIL
+     ====================================================== */
   const handleSendLink = async () => {
     if (!email) {
       alert("Enter email");
@@ -221,7 +388,7 @@ function ChangePassword() {
 
     setLoading(true);
     try {
-      // 🔹 1️⃣ Backend ला email check
+      // 🔹 check email exists in backend (optional but recommended)
       const res = await fetch(`${API_BASE}/api/auth/check-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -229,16 +396,19 @@ function ChangePassword() {
       });
 
       const data = await res.json();
-
       if (!data.exists) {
         alert("Email not registered");
+        setLoading(false);
         return;
       }
 
-      // 🔹 2️⃣ Email exists → Firebase reset link
-      await sendPasswordResetEmail(auth, email);
+      // 🔹 send firebase reset link with redirect
+      await sendPasswordResetEmail(auth, email, {
+        url: "http://localhost:3000/change-password",
+        handleCodeInApp: true,
+      });
 
-      alert("Reset link sent to your email");
+      alert("Password reset link sent to your email");
     } catch (err) {
       console.error(err);
       alert("Failed to send link");
@@ -247,7 +417,9 @@ function ChangePassword() {
     }
   };
 
-  // ================= RESET PASSWORD =================
+  /* ======================================================
+     RESET PASSWORD
+     ====================================================== */
   const handleResetPassword = async () => {
     if (!newPass || !confirmPass) {
       alert("Fill all fields");
@@ -261,10 +433,10 @@ function ChangePassword() {
 
     setLoading(true);
     try {
-      // 🔹 Firebase password update
+      // 🔹 firebase password update
       await confirmPasswordReset(auth, oobCode, newPass);
 
-      // 🔹 MongoDB password update
+      // 🔹 backend password update (MongoDB)
       await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -286,6 +458,7 @@ function ChangePassword() {
 
   return (
     <div className="auth-box">
+      {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
         <>
           <h2>Enter Email</h2>
@@ -303,6 +476,7 @@ function ChangePassword() {
         </>
       )}
 
+      {/* ================= RESET STEP ================= */}
       {step === "reset" && (
         <>
           <h2>Set New Password</h2>
