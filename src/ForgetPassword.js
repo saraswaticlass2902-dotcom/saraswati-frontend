@@ -194,13 +194,13 @@ function ChangePassword() {
 
   const oobCode = params.get("oobCode");
 
+  const [step, setStep] = useState("email"); // email | reset
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState("email"); // email | reset
 
-  // 🔥 If link clicked → verify code & get email
+  // ================= LINK CLICK झाल्यावर =================
   useEffect(() => {
     if (!oobCode) return;
 
@@ -212,7 +212,7 @@ function ChangePassword() {
       .catch(() => alert("Invalid or expired link"));
   }, [oobCode]);
 
-  // ================= SEND RESET LINK =================
+  // ================= SEND LINK (EMAIL EXISTS CHECK) =================
   const handleSendLink = async () => {
     if (!email) {
       alert("Enter email");
@@ -221,11 +221,27 @@ function ChangePassword() {
 
     setLoading(true);
     try {
+      // 🔹 1️⃣ Backend ला email check
+      const res = await fetch(`${API_BASE}/api/auth/check-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (!data.exists) {
+        alert("Email not registered");
+        return;
+      }
+
+      // 🔹 2️⃣ Email exists → Firebase reset link
       await sendPasswordResetEmail(auth, email);
-      alert("Password reset link sent to your email");
+
+      alert("Reset link sent to your email");
     } catch (err) {
       console.error(err);
-      alert("Failed to send reset link");
+      alert("Failed to send link");
     } finally {
       setLoading(false);
     }
@@ -245,7 +261,7 @@ function ChangePassword() {
 
     setLoading(true);
     try {
-      // 🔹 Firebase password reset
+      // 🔹 Firebase password update
       await confirmPasswordReset(auth, oobCode, newPass);
 
       // 🔹 MongoDB password update
@@ -262,7 +278,7 @@ function ChangePassword() {
       navigate("/login");
     } catch (err) {
       console.error(err);
-      alert("Reset failed");
+      alert("Password reset failed");
     } finally {
       setLoading(false);
     }
@@ -272,17 +288,17 @@ function ChangePassword() {
     <div className="auth-box">
       {step === "email" && (
         <>
-          <h2>Forgot Password</h2>
+          <h2>Enter Email</h2>
 
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Enter your registered email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <button onClick={handleSendLink} disabled={loading}>
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading ? "Sending..." : "Send Link"}
           </button>
         </>
       )}
