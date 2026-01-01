@@ -178,7 +178,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { confirmPasswordReset } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
+} from "firebase/auth";
 import { auth } from "./firebase";
 
 const API_BASE =
@@ -188,22 +192,48 @@ function ChangePassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const oobCode = params.get("oobCode"); // 🔥 Firebase token
+  const oobCode = params.get("oobCode");
 
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [step, setStep] = useState("email"); // email | reset
 
+  // 🔥 If link clicked → verify code & get email
   useEffect(() => {
-    if (!oobCode) {
-      setMessage("❌ Invalid or expired reset link");
-    }
+    if (!oobCode) return;
+
+    verifyPasswordResetCode(auth, oobCode)
+      .then((email) => {
+        setEmail(email);
+        setStep("reset");
+      })
+      .catch(() => alert("Invalid or expired link"));
   }, [oobCode]);
 
+  // ================= SEND RESET LINK =================
+  const handleSendLink = async () => {
+    if (!email) {
+      alert("Enter email");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset link sent to your email");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send reset link");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ================= RESET PASSWORD =================
   const handleResetPassword = async () => {
-    if (!email || !newPass || !confirmPass) {
+    if (!newPass || !confirmPass) {
       alert("Fill all fields");
       return;
     }
@@ -214,12 +244,11 @@ function ChangePassword() {
     }
 
     setLoading(true);
-
     try {
-      // 🔥 1️⃣ Firebase password reset
+      // 🔹 Firebase password reset
       await confirmPasswordReset(auth, oobCode, newPass);
 
-      // 🔥 2️⃣ MongoDB password update (NO old password)
+      // 🔹 MongoDB password update
       await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -229,12 +258,11 @@ function ChangePassword() {
         }),
       });
 
-      alert("Password reset successful");
+      alert("Password changed successfully");
       navigate("/login");
-
     } catch (err) {
       console.error(err);
-      alert("Reset link expired or invalid");
+      alert("Reset failed");
     } finally {
       setLoading(false);
     }
@@ -242,34 +270,47 @@ function ChangePassword() {
 
   return (
     <div className="auth-box">
-      <h2>Reset Password</h2>
+      {step === "email" && (
+        <>
+          <h2>Forgot Password</h2>
 
-      <input
-        type="email"
-        placeholder="Confirm your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-      <input
-        type="password"
-        placeholder="New password"
-        value={newPass}
-        onChange={(e) => setNewPass(e.target.value)}
-      />
+          <button onClick={handleSendLink} disabled={loading}>
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
+        </>
+      )}
 
-      <input
-        type="password"
-        placeholder="Confirm new password"
-        value={confirmPass}
-        onChange={(e) => setConfirmPass(e.target.value)}
-      />
+      {step === "reset" && (
+        <>
+          <h2>Set New Password</h2>
+          <p><b>Email:</b> {email}</p>
 
-      <button onClick={handleResetPassword} disabled={loading}>
-        {loading ? "Updating..." : "Update Password"}
-      </button>
+          <input
+            type="password"
+            placeholder="New password"
+            value={newPass}
+            onChange={(e) => setNewPass(e.target.value)}
+          />
 
-      {message && <p>{message}</p>}
+          <input
+            type="password"
+            placeholder="Confirm new password"
+            value={confirmPass}
+            onChange={(e) => setConfirmPass(e.target.value)}
+          />
+
+          <button onClick={handleResetPassword} disabled={loading}>
+            {loading ? "Updating..." : "Update Password"}
+          </button>
+        </>
+      )}
     </div>
   );
 }
