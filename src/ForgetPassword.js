@@ -333,7 +333,6 @@
 
 // export default ChangePassword;
 
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -353,23 +352,24 @@ function ChangePassword() {
   // 🔹 Firebase token from email link
   const oobCode = params.get("oobCode");
 
-  const [step, setStep] = useState("email"); // email | reset
+  // 🔥 IMPORTANT: auto open reset screen if link clicked
+  const [step, setStep] = useState(oobCode ? "reset" : "email");
+
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
 
   /* ======================================================
-     WHEN USER CLICKS EMAIL LINK
+     WHEN USER CLICKS EMAIL LINK → AUTO OPEN RESET
      ====================================================== */
   useEffect(() => {
     if (!oobCode) return;
 
-    // 🔹 verify reset link and fetch email
     verifyPasswordResetCode(auth, oobCode)
       .then((emailFromLink) => {
         setEmail(emailFromLink);
-        setStep("reset");
+        setStep("reset"); // 🔥 force reset screen
       })
       .catch(() => {
         alert("Invalid or expired link");
@@ -378,7 +378,7 @@ function ChangePassword() {
   }, [oobCode]);
 
   /* ======================================================
-     SEND RESET LINK TO EMAIL
+     SEND RESET LINK
      ====================================================== */
   const handleSendLink = async () => {
     if (!email) {
@@ -388,7 +388,6 @@ function ChangePassword() {
 
     setLoading(true);
     try {
-      // 🔹 check email exists in backend (optional but recommended)
       const res = await fetch(`${API_BASE}/api/auth/check-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -398,11 +397,9 @@ function ChangePassword() {
       const data = await res.json();
       if (!data.exists) {
         alert("Email not registered");
-        setLoading(false);
         return;
       }
 
-      // 🔹 send firebase reset link with redirect
       await sendPasswordResetEmail(auth, email, {
         url: "http://localhost:3000/change-password",
         handleCodeInApp: true,
@@ -433,10 +430,8 @@ function ChangePassword() {
 
     setLoading(true);
     try {
-      // 🔹 firebase password update
       await confirmPasswordReset(auth, oobCode, newPass);
 
-      // 🔹 backend password update (MongoDB)
       await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
