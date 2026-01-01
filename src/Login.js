@@ -4,7 +4,8 @@
 // import "./Login.css";
 // import { Link, useNavigate } from "react-router-dom";
 
-// const API_BASE = process.env.REACT_APP_API;
+// const API_BASE =
+//   process.env.REACT_APP_API || "http://localhost:5000";
 
 // function Login({ onSuccess }) {
 //   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@
 //       const res = await fetch(`${API_BASE}/api/auth/login`, {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
-//         credentials: "include", // ✅ cookies
+//         credentials: "include", // 🔥 cookie support
 //         body: JSON.stringify({
 //           email: email.trim().toLowerCase(),
 //           password,
@@ -36,18 +37,19 @@
 
 //       const data = await res.json();
 
-//       if (res.ok) {
-//         if (onSuccess) {
-//           await onSuccess();
-//         }
-
-//         // small delay so cookie is saved
-//         setTimeout(() => {
-//           navigate("/dashboard", { replace: true });
-//         }, 150);
-//       } else {
+//       if (!res.ok) {
 //         setMessage(data?.message || "Login failed");
+//         return;
 //       }
+
+//       // 🔥 update auth state in App.js
+//       if (onSuccess) {
+//         await onSuccess();
+//       }
+
+//       // 🔥 SPA-safe redirect
+//       navigate("/dashboard", { replace: true });
+
 //     } catch (err) {
 //       console.error("Login error:", err);
 //       setMessage("Server error. Please try again later.");
@@ -100,9 +102,13 @@
 
 // export default Login;
 
+
+
 import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
 
 const API_BASE =
   process.env.REACT_APP_API || "http://localhost:5000";
@@ -125,34 +131,50 @@ function Login({ onSuccess }) {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
+      // 🔥 1️⃣ Firebase Login
+      const cred = await signInWithEmailAndPassword(
+        auth,
+        email.trim(),
+        password
+      );
+
+      // 🔐 2️⃣ Email verified check
+      if (!cred.user.emailVerified) {
+        setMessage("Please verify your email first.");
+        return;
+      }
+
+      // 🔁 3️⃣ MongoDB check / create user
+      const res = await fetch(`${API_BASE}/api/users/check`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // 🔥 cookie support
         body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password,
+          uid: cred.user.uid,
+          email: cred.user.email,
+          username: localStorage.getItem("pendingUsername") || "User",
         }),
       });
 
       const data = await res.json();
-
       if (!res.ok) {
-        setMessage(data?.message || "Login failed");
+        setMessage(data?.message || "Database error");
         return;
       }
 
-      // 🔥 update auth state in App.js
+      // 🔥 optional global auth update
       if (onSuccess) {
         await onSuccess();
       }
 
-      // 🔥 SPA-safe redirect
+      // 🔥 clear temp data
+      localStorage.removeItem("pendingUsername");
+
+      // 🔥 redirect
       navigate("/dashboard", { replace: true });
 
     } catch (err) {
       console.error("Login error:", err);
-      setMessage("Server error. Please try again later.");
+      setMessage(err.message.replace("Firebase:", ""));
     } finally {
       setLoading(false);
     }
