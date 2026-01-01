@@ -95,42 +95,146 @@
 // export default ForgetPassword;
 
 
-import React, { useState } from "react";
-import { sendPasswordResetEmail } from "firebase/auth";
+// import React, { useState } from "react";
+// import { sendPasswordResetEmail } from "firebase/auth";
+// import { auth } from "./firebase";
+
+// function ForgetPassword() {
+//   const [email, setEmail] = useState("");
+//   const [message, setMessage] = useState("");
+//   const [loading, setLoading] = useState(false);
+
+//   const handleResetPassword = async () => {
+//     if (!email) {
+//       setMessage("❌ Please enter your email");
+//       return;
+//     }
+
+//     setLoading(true);
+//     setMessage("");
+
+//     try {
+//       // 🔥 Firebase forgot password
+//       await sendPasswordResetEmail(auth, email.trim());
+
+//       setMessage(
+//         "✅ Password reset link sent to your email. Please check Inbox or Spam."
+//       );
+//     } catch (error) {
+//       console.error("Firebase reset error:", error);
+
+//       // user-friendly messages
+//       if (error.code === "auth/user-not-found") {
+//         setMessage("❌ Email not registered.");
+//       } else if (error.code === "auth/invalid-email") {
+//         setMessage("❌ Invalid email address.");
+//       } else {
+//         setMessage("❌ Failed to send reset link. Try again later.");
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="auth-box">
+//       <h2>Forgot Password</h2>
+//       <p>Enter your registered email to reset password</p>
+
+//       <input
+//         type="email"
+//         placeholder="Enter your Email"
+//         value={email}
+//         onChange={(e) => setEmail(e.target.value)}
+//         disabled={loading}
+//       />
+
+//       <button onClick={handleResetPassword} disabled={loading}>
+//         {loading ? "Sending..." : "Send Reset Link"}
+//       </button>
+
+//       {/* Message UI */}
+//       {message && (
+//         <div
+//           style={{
+//             marginTop: "1rem",
+//             padding: "12px",
+//             backgroundColor: message.startsWith("✅") ? "#d4edda" : "#f8d7da",
+//             color: message.startsWith("✅") ? "#155724" : "#721c24",
+//             border: "1px solid",
+//             borderColor: message.startsWith("✅") ? "#c3e6cb" : "#f5c6cb",
+//             borderRadius: "8px",
+//             fontSize: "0.9rem",
+//           }}
+//         >
+//           {message}
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default ForgetPassword;
+
+import React, { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { confirmPasswordReset } from "firebase/auth";
 import { auth } from "./firebase";
 
-function ForgetPassword() {
+const API_BASE =
+  process.env.REACT_APP_API || "http://localhost:5000";
+
+function ChangePassword() {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  const oobCode = params.get("oobCode"); // 🔥 Firebase token
+
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (!oobCode) {
+      setMessage("❌ Invalid or expired reset link");
+    }
+  }, [oobCode]);
 
   const handleResetPassword = async () => {
-    if (!email) {
-      setMessage("❌ Please enter your email");
+    if (!email || !newPass || !confirmPass) {
+      alert("Fill all fields");
+      return;
+    }
+
+    if (newPass !== confirmPass) {
+      alert("Passwords do not match");
       return;
     }
 
     setLoading(true);
-    setMessage("");
 
     try {
-      // 🔥 Firebase forgot password
-      await sendPasswordResetEmail(auth, email.trim());
+      // 🔥 1️⃣ Firebase password reset
+      await confirmPasswordReset(auth, oobCode, newPass);
 
-      setMessage(
-        "✅ Password reset link sent to your email. Please check Inbox or Spam."
-      );
-    } catch (error) {
-      console.error("Firebase reset error:", error);
+      // 🔥 2️⃣ MongoDB password update (NO old password)
+      await fetch(`${API_BASE}/api/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          newPassword: newPass,
+        }),
+      });
 
-      // user-friendly messages
-      if (error.code === "auth/user-not-found") {
-        setMessage("❌ Email not registered.");
-      } else if (error.code === "auth/invalid-email") {
-        setMessage("❌ Invalid email address.");
-      } else {
-        setMessage("❌ Failed to send reset link. Try again later.");
-      }
+      alert("Password reset successful");
+      navigate("/login");
+
+    } catch (err) {
+      console.error(err);
+      alert("Reset link expired or invalid");
     } finally {
       setLoading(false);
     }
@@ -138,40 +242,36 @@ function ForgetPassword() {
 
   return (
     <div className="auth-box">
-      <h2>Forgot Password</h2>
-      <p>Enter your registered email to reset password</p>
+      <h2>Reset Password</h2>
 
       <input
         type="email"
-        placeholder="Enter your Email"
+        placeholder="Confirm your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        disabled={loading}
+      />
+
+      <input
+        type="password"
+        placeholder="New password"
+        value={newPass}
+        onChange={(e) => setNewPass(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Confirm new password"
+        value={confirmPass}
+        onChange={(e) => setConfirmPass(e.target.value)}
       />
 
       <button onClick={handleResetPassword} disabled={loading}>
-        {loading ? "Sending..." : "Send Reset Link"}
+        {loading ? "Updating..." : "Update Password"}
       </button>
 
-      {/* Message UI */}
-      {message && (
-        <div
-          style={{
-            marginTop: "1rem",
-            padding: "12px",
-            backgroundColor: message.startsWith("✅") ? "#d4edda" : "#f8d7da",
-            color: message.startsWith("✅") ? "#155724" : "#721c24",
-            border: "1px solid",
-            borderColor: message.startsWith("✅") ? "#c3e6cb" : "#f5c6cb",
-            borderRadius: "8px",
-            fontSize: "0.9rem",
-          }}
-        >
-          {message}
-        </div>
-      )}
+      {message && <p>{message}</p>}
     </div>
   );
 }
 
-export default ForgetPassword;
+export default ChangePassword;
