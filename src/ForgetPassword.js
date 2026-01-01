@@ -331,7 +331,6 @@
 //   );
 // }
 
-// export default ChangePassword;
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -348,20 +347,19 @@ function ChangePassword() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  // 🔹 Firebase action code from email link
   const oobCode = params.get("oobCode");
 
-  // 🔥 IMPORTANT: auto-open reset screen if link clicked
   const [step, setStep] = useState(oobCode ? "reset" : "email");
-
   const [email, setEmail] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(!!oobCode);
+
+  // 🔥 NEW: message state (same like Registration)
+  const [message, setMessage] = useState("");
 
   /* ======================================================
-     WHEN USER CLICKS EMAIL LINK → AUTO OPEN RESET UI
+     WHEN USER CLICKS EMAIL LINK
      ====================================================== */
   useEffect(() => {
     if (!oobCode) return;
@@ -369,13 +367,15 @@ function ChangePassword() {
     verifyPasswordResetCode(auth, oobCode)
       .then((emailFromLink) => {
         setEmail(emailFromLink);
-        setStep("reset"); // 🔥 same feel as "Login button appears"
+        setStep("reset");
+        setMessage(
+          "Link verified successfully ✅ You can now change password."
+        );
       })
       .catch(() => {
-        alert("Invalid or expired link");
+        setMessage("Invalid or expired link ❌");
         setStep("email");
-      })
-      .finally(() => setChecking(false));
+      });
   }, [oobCode]);
 
   /* ======================================================
@@ -383,13 +383,14 @@ function ChangePassword() {
      ====================================================== */
   const handleSendLink = async () => {
     if (!email) {
-      alert("Enter email");
+      setMessage("Please enter email");
       return;
     }
 
     setLoading(true);
+    setMessage("");
+
     try {
-      // optional backend check (recommended)
       const res = await fetch(`${API_BASE}/api/auth/check-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -398,21 +399,22 @@ function ChangePassword() {
 
       const data = await res.json();
       if (!data.exists) {
-        alert("Email not registered");
+        setMessage("Email not registered ❌");
         setLoading(false);
         return;
       }
 
-      // 🔹 send firebase reset link with redirect
       await sendPasswordResetEmail(auth, email, {
         url: "http://localhost:3000/change-password",
         handleCodeInApp: true,
       });
 
-      alert("Password reset link sent to your email");
+      setMessage(
+        "Password reset link sent to your email. Please check inbox."
+      );
     } catch (err) {
       console.error(err);
-      alert("Failed to send link");
+      setMessage("Failed to send reset link ❌");
     } finally {
       setLoading(false);
     }
@@ -423,21 +425,19 @@ function ChangePassword() {
      ====================================================== */
   const handleResetPassword = async () => {
     if (!newPass || !confirmPass) {
-      alert("Fill all fields");
+      setMessage("Please fill all fields");
       return;
     }
 
     if (newPass !== confirmPass) {
-      alert("Passwords do not match");
+      setMessage("Passwords do not match ❌");
       return;
     }
 
     setLoading(true);
     try {
-      // 🔹 Firebase password reset
       await confirmPasswordReset(auth, oobCode, newPass);
 
-      // 🔹 Backend password update (MongoDB)
       await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -447,11 +447,11 @@ function ChangePassword() {
         }),
       });
 
-      alert("Password changed successfully");
-      navigate("/login");
+      setMessage("Password changed successfully ✅ You can now login.");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       console.error(err);
-      alert("Password reset failed");
+      setMessage("Password reset failed ❌");
     } finally {
       setLoading(false);
     }
@@ -460,24 +460,18 @@ function ChangePassword() {
   /* ======================================================
      UI
      ====================================================== */
-  if (checking) {
-    return (
-      <div className="auth-box">
-        <h3>Opening change password…</h3>
-      </div>
-    );
-  }
-
   return (
     <div className="auth-box">
-      {/* ================= EMAIL STEP ================= */}
+      <h2>Change Password</h2>
+
+      {/* 🔥 MESSAGE LIKE REGISTRATION */}
+      {message && <p className="form-message">{message}</p>}
+
       {step === "email" && (
         <>
-          <h2>Enter Email</h2>
-
           <input
             type="email"
-            placeholder="Enter your registered email ok ok"
+            placeholder="Enter your registered email ss"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -488,12 +482,8 @@ function ChangePassword() {
         </>
       )}
 
-      {/* ================= RESET STEP ================= */}
       {step === "reset" && (
         <>
-          <h2>Set New Password</h2>
-          <p><b>Email:</b> {email}</p>
-
           <input
             type="password"
             placeholder="New password"
