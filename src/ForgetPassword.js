@@ -477,7 +477,7 @@ function ChangePassword() {
 
           <input
             type="email"
-            placeholder="Enter your registered email"
+            placeholder="Enter your registered email ok ok"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
