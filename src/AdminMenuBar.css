@@ -389,14 +389,14 @@
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: #fff;
+  color: red;
   font-size: 15px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .admin-popup button:hover {
-  background: #1d4ed8;
+  background: pink;
 }
 
 .admin-popup button:disabled {
@@ -417,6 +417,7 @@
    ADMIN LIST
 ===================================================== */
 .admin-list {
+  
   list-style: none;
 }
 
@@ -426,7 +427,20 @@
   font-size: 14px;
   display: flex;
   justify-content: space-between;
+ 
+
+  /* 🔥 IMPORTANT */
+  color: #111827;          /* Dark text */
+  background: #f9fafb;    /* Light grey background */
+  border-radius: 6px;
+  margin-bottom: 6px;
 }
+.admin-list li:hover {
+  background: #e0e7ff;
+  transition: background 0.3s ease;
+}
+
+
 
 /* =====================================================
    TABLET
