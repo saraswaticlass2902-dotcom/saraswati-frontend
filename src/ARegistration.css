@@ -146,6 +146,21 @@
   background: #0b5ed7;
 }
 
+.admin-profile-photo-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.admin-profile-photo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #444;
+}
+
+
 /* ================================================= */
 /* ================= MOBILE RESPONSIVE ============== */
 /* ================================================= */
