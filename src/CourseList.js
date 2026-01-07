@@ -49,10 +49,12 @@ function CourseList() {
           {filteredCourses.length ? (
             filteredCourses.map((course) => (
               <div key={course._id} className="course-card">
+                {/* ✅ CLOUDINARY IMAGE */}
                 {course.thumbnail && (
                   <img
-                    src={`${API_BASE}${course.thumbnail}`}
+                    src={course.thumbnail}
                     alt={course.title}
+                    className="course-thumb"
                   />
                 )}
 
@@ -93,9 +95,10 @@ function CourseList() {
           </button>
 
           <div className="course-detail-card">
+            {/* ✅ CLOUDINARY IMAGE */}
             {selectedCourse.thumbnail && (
               <img
-                src={`${API_BASE}${selectedCourse.thumbnail}`}
+                src={selectedCourse.thumbnail}
                 alt={selectedCourse.title}
               />
             )}
