@@ -726,7 +726,7 @@ function DashMenuBar({ email, onLogout }) {
 
             <input value={profileData.email} disabled />
 
-            <input disabled={!editMode} value={profileData.studentName}
+            <input disabled={!editMode} value={profileData.studentName}   placeholder="Student Name"
               onChange={(e) => setProfileData({ ...profileData, studentName: e.target.value })} />
 
             <input type="date" disabled={!editMode} value={profileData.dob}
@@ -739,16 +739,16 @@ function DashMenuBar({ email, onLogout }) {
               <option>Female</option>
             </select>
 
-            <input disabled={!editMode} value={profileData.village}
+            <input disabled={!editMode} value={profileData.village}   placeholder="Village"
               onChange={(e) => setProfileData({ ...profileData, village: e.target.value })} />
 
-            <input disabled={!editMode} value={profileData.parentName}
+            <input disabled={!editMode} value={profileData.parentName} placeholder="Parent Name"
               onChange={(e) => setProfileData({ ...profileData, parentName: e.target.value })} />
 
-            <input disabled={!editMode} value={profileData.parentContact}
+            <input disabled={!editMode} value={profileData.parentContact}  placeholder="Parent Contact"
               onChange={(e) => setProfileData({ ...profileData, parentContact: e.target.value })} />
 
-            <input disabled={!editMode} value={profileData.standard}
+            <input disabled={!editMode} value={profileData.standard} placeholder="Standard"
               onChange={(e) => setProfileData({ ...profileData, standard: e.target.value })} />
 
             {!editMode ? (
