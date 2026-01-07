@@ -413,26 +413,27 @@ function DashMenuBar({ email, onLogout }) {
   };
 
   /* ================= UPLOAD PHOTO ================= */
-  const uploadPhoto = async () => {
-    if (!photoFile) return alert("Select image");
+  /* ================= UPLOAD PHOTO ================= */
+const uploadPhoto = async () => {
+  if (!photoFile) return alert("Select image");
 
-    const formData = new FormData();
-    formData.append("photo", photoFile);
+  const formData = new FormData();
+  formData.append("photo", photoFile);
 
-    const res = await fetch(`${API_BASE}/api/profile/upload-photo`, {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    });
+  const res = await fetch(`${API_BASE}/api/profile/upload-photo`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
 
-    const data = await res.json();
-    if (data.ok) {
-      setProfilePhoto(data.photo);
-      alert("✅ Profile photo updated");
-    } else {
-      alert("❌ Upload failed");
-    }
-  };
+  const data = await res.json();
+  if (data.ok) {
+    setProfilePhoto(data.photo);
+    alert("✅ Profile photo updated");
+  } else {
+    alert("❌ Upload failed");
+  }
+};
 
   /* ================= CHANGE PASSWORD ================= */
   const handleChangePassword = async () => {
@@ -573,10 +574,11 @@ function DashMenuBar({ email, onLogout }) {
             <div className="profile-photo-box">
               {profilePhoto ? (
                 <img
-                  src={`${API_BASE}${profilePhoto}`}
-                  alt="Profile"
-                  className="profile-photo"
-                />
+  src={profilePhoto}   // ✅ DIRECT Cloudinary URL
+  alt="Profile"
+  className="profile-photo"
+/>
+
               ) : (
                 <FaUserCircle size={90} />
               )}
