@@ -175,6 +175,22 @@
   color: #dc2626;
 }
 
+
+.profile-photo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;        /* 🔴 ROUND */
+  object-fit: cover;         /* image stretch होऊ देत नाही */
+  border: 3px solid #4a90e2; /* optional border */
+}
+
 /* ================= ANIMATIONS ================= */
 @keyframes popupFade {
   from {
